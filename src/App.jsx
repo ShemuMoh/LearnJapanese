@@ -50,24 +50,24 @@ const KATAKANA_COMMON = [
 ];
 
 const PARTICLES_DATA = [
-  { p: "は", r: "wa", role: "Topic/Subject", ex: "わたしは", exEn: "I (am the topic)", color: "#FF6B6B", bengali: "Like -ই/-টা marking the topic in Bengali" },
-  { p: "を", r: "o", role: "Object of action", ex: "コーヒーを", exEn: "coffee (acting on it)", color: "#4ECDC4", bengali: "Like -কে/-টাকে marking the object" },
-  { p: "の", r: "no", role: "Possession", ex: "わたしの", exEn: "my", color: "#45B7D1", bengali: "Like -র/-এর (āmār = my)" },
-  { p: "に", r: "ni", role: "Target/Direction", ex: "がっこうに", exEn: "to school", color: "#96CEB4", bengali: "Like -তে/-এ for direction" },
-  { p: "で", r: "de", role: "Location of action", ex: "カフェで", exEn: "at a café", color: "#FFEAA7", bengali: "Like -তে for 'at/in' a place" },
+  { p: "は", r: "wa", role: "Topic/Subject", ex: "watashi wa", exEn: "I (am the topic)", color: "#FF6B6B", bengali: "Like -ই/-টা marking the topic in Bengali" },
+  { p: "を", r: "o", role: "Object of action", ex: "koohii o", exEn: "coffee (acting on it)", color: "#4ECDC4", bengali: "Like -কে/-টাকে marking the object" },
+  { p: "の", r: "no", role: "Possession", ex: "watashi no", exEn: "my", color: "#45B7D1", bengali: "Like -র/-এর (āmār = my)" },
+  { p: "に", r: "ni", role: "Target/Direction", ex: "gakkou ni", exEn: "to school", color: "#96CEB4", bengali: "Like -তে/-এ for direction" },
+  { p: "で", r: "de", role: "Location of action", ex: "kafe de", exEn: "at a café", color: "#FFEAA7", bengali: "Like -তে for 'at/in' a place" },
 ];
 
 const BASIC_VERBS = [
-  { dict: "たべる", masu: "たべます", past: "たべました", neg: "たべません", en: "eat", r: "taberu" },
-  { dict: "のむ", masu: "のみます", past: "のみました", neg: "のみません", en: "drink", r: "nomu" },
-  { dict: "いく", masu: "いきます", past: "いきました", neg: "いきません", en: "go", r: "iku" },
-  { dict: "くる", masu: "きます", past: "きました", neg: "きません", en: "come", r: "kuru" },
-  { dict: "みる", masu: "みます", past: "みました", neg: "みません", en: "see/watch", r: "miru" },
-  { dict: "する", masu: "します", past: "しました", neg: "しません", en: "do", r: "suru" },
-  { dict: "かう", masu: "かいます", past: "かいました", neg: "かいません", en: "buy", r: "kau" },
-  { dict: "よむ", masu: "よみます", past: "よみました", neg: "よみません", en: "read", r: "yomu" },
-  { dict: "かく", masu: "かきます", past: "かきました", neg: "かきません", en: "write", r: "kaku" },
-  { dict: "はなす", masu: "はなします", past: "はなしました", neg: "はなしません", en: "speak", r: "hanasu" },
+  { dict: "taberu", masu: "tabemasu", past: "tabemashita", neg: "tabemasen", en: "eat", r: "taberu" },
+  { dict: "nomu", masu: "nomimasu", past: "nomimashita", neg: "nomimasen", en: "drink", r: "nomu" },
+  { dict: "iku", masu: "ikimasu", past: "ikimashita", neg: "ikimasen", en: "go", r: "iku" },
+  { dict: "kuru", masu: "kimasu", past: "kimashita", neg: "kimasen", en: "come", r: "kuru" },
+  { dict: "miru", masu: "mimasu", past: "mimashita", neg: "mimasen", en: "see/watch", r: "miru" },
+  { dict: "suru", masu: "shimasu", past: "shimashita", neg: "shimasen", en: "do", r: "suru" },
+  { dict: "kau", masu: "kaimasu", past: "kaimashita", neg: "kaimasen", en: "buy", r: "kau" },
+  { dict: "yomu", masu: "yomimasu", past: "yomimashita", neg: "yomimasen", en: "read", r: "yomu" },
+  { dict: "kaku", masu: "kakimasu", past: "kakimashita", neg: "kakimasen", en: "write", r: "kaku" },
+  { dict: "hanasu", masu: "hanashimasu", past: "hanashimashita", neg: "hanashimasen", en: "speak", r: "hanasu" },
 ];
 
 const BLOCK_COLORS = {
@@ -99,13 +99,13 @@ const LESSONS = [
       {
         type: "insight",
         title: "🇧🇩 Your Bengali Superpower",
-        text: "Bengali is Subject-Object-Verb, just like Japanese! In Bengali you say 'আমি ভাত খাই' (ami bhat khai = I rice eat). Japanese works the same way: わたしは ごはんを たべます (watashi wa gohan o tabemasu = I rice eat). You already THINK in Japanese word order."
+        text: "Bengali is Subject-Object-Verb, just like Japanese! In Bengali you say 'আমি ভাত খাই' (ami bhat khai = I rice eat). Japanese works the same way: watashi wa gohan o tabemasu = I rice eat. You already THINK in Japanese word order."
       },
       {
         type: "block-intro",
         title: "The Block Method — How Japanese Sentences Work",
         text: "Every Japanese sentence is built from blocks in this order. The verb ALWAYS goes last. Always.",
-        blocks: ["Who は", "Time", "Place で", "What を", "How", "Verb"]
+        blocks: ["Who wa", "Time", "Place de", "What o", "How", "Verb"]
       },
       {
         type: "example",
@@ -146,7 +146,7 @@ const LESSONS = [
       {
         type: "insight",
         title: "The Magic Trick",
-        text: "Watch how ONE word — わたし (watashi = I/me) — changes meaning with different particles:\n\nわたしは = I (topic)\nわたしの = my\nわたしに = to me\nわたしも = me too\n\nThe word never changes. Only the particle does. This is the opposite of Italian, where 'io/mi/mio/me' are all different words!"
+        text: "Watch how ONE word — watashi (I/me) — changes meaning with different particles:\n\nwatashi wa = I (topic)\nwatashi no = my\nwatashi ni = to me\nwatashi mo = me too\n\nThe word never changes. Only the particle does. This is the opposite of Italian, where 'io/mi/mio/me' are all different words!"
       },
       {
         type: "example",
@@ -178,7 +178,7 @@ const LESSONS = [
       {
         type: "insight",
         title: "🇮🇹 Italian Has 50+ Verb Forms. Japanese Has... 4.",
-        text: "In Italian, 'mangiare' becomes mangio, mangi, mangia, mangiamo, mangiate, mangiano... and that's just present tense! In Japanese, polite form has essentially 4 forms:\n\nたべます (eat) → たべました (ate) → たべません (don't eat) → たべませんでした (didn't eat)\n\nThat's it. No person agreement. No gender. Just these 4 patterns."
+        text: "In Italian, 'mangiare' becomes mangio, mangi, mangia, mangiamo, mangiate, mangiano... and that's just present tense! In Japanese, polite form has essentially 4 forms:\n\ntabemasu (eat) → tabemashita (ate) → tabemasen (don't eat) → tabemasen deshita (didn't eat)\n\nThat's it. No person agreement. No gender. Just these 4 patterns."
       },
       {
         type: "verbs",
@@ -209,13 +209,13 @@ const LESSONS = [
   {
     id: 4,
     title: "Self-Introduction",
-    subtitle: "じこしょうかい — Your first real conversation",
+    subtitle: "jikoshoukai — Your first real conversation",
     phase: 1,
     content: [
       {
         type: "insight",
         title: "Real-World Skill #1",
-        text: "Self-introductions (じこしょうかい / jikoshoukai) are HUGE in Japanese culture. This is probably the first thing you'll actually use. Let's build yours block by block."
+        text: "Self-introductions (jikoshoukai) are HUGE in Japanese culture. This is probably the first thing you'll actually use. Let's build yours block by block."
       },
       {
         type: "conversation",
@@ -229,8 +229,8 @@ const LESSONS = [
       },
       {
         type: "insight",
-        title: "New Particle Alert: から (kara) = 'from'",
-        text: "This is a new block! から marks where you came FROM.\n\nイギリスから = from England\nイタリアから = from Italy\nバングラデシュから = from Bangladesh\n\nIt works just like Bengali -থেকে (theke): লন্ডন থেকে = ロンドンから = from London"
+        title: "New Particle Alert: kara = 'from'",
+        text: "This is a new block! 'kara' marks where you came FROM.\n\nigirisu kara = from England\nitaria kara = from Italy\nbanguradesh kara = from Bangladesh\n\nIt works just like Bengali -থেকে (theke): London theke = rondon kara = from London"
       },
       {
         type: "example",
@@ -252,7 +252,7 @@ const LESSONS = [
       {
         type: "insight",
         title: "🇬🇧 Your English Superpower",
-        text: "Japanese borrowed THOUSANDS of English words and wrote them in a special alphabet called katakana (カタカナ). If you can say 'coffee', you can say コーヒー (koohii). If you can say 'restaurant', you can say レストラン (resutoran). Think of katakana as English words wearing a Japanese costume."
+        text: "Japanese borrowed THOUSANDS of English words and wrote them in a special alphabet called katakana. If you can say 'coffee', you can say koohii. If you can say 'restaurant', you can say resutoran. Think of katakana as English words wearing a Japanese costume."
       },
       {
         type: "katakana",
@@ -261,7 +261,7 @@ const LESSONS = [
       {
         type: "insight",
         title: "🇮🇹 Double Consonants = Italian Gemination",
-        text: "Japanese has double consonants just like Italian! きっぷ (kippu = ticket) has the same 'pp' sound as 'coppa'. にっぽん (nippon = Japan) works like 'troppo'. Your Italian ear is already trained for this."
+        text: "Japanese has double consonants just like Italian! kippu (ticket) has the same 'pp' sound as 'coppa'. nippon (Japan) works like 'troppo'. Your Italian ear is already trained for this."
       },
       {
         type: "example",
@@ -284,7 +284,7 @@ const LESSONS = [
       {
         type: "insight",
         title: "Time = A Block That Slots In",
-        text: "Time words in Japanese are just another block. They go near the front of the sentence, right after [Who]. No prepositions needed — no 'on Monday', 'at 3pm', 'in the morning'. Just drop the time word in the Time slot.\n\nきのう = yesterday\nきょう = today\nあした = tomorrow\nまいにち = every day"
+        text: "Time words in Japanese are just another block. They go near the front of the sentence, right after [Who]. No prepositions needed — no 'on Monday', 'at 3pm', 'in the morning'. Just drop the time word in the Time slot.\n\nkinou = yesterday\nkyou = today\nashita = tomorrow\nmainichi = every day"
       },
       {
         type: "example",
@@ -298,8 +298,8 @@ const LESSONS = [
       },
       {
         type: "insight",
-        title: "Past Tense is Just ーました",
-        text: "To make any polite verb past tense, swap ます → ました. That's it. No irregular forms to memorise (unlike Italian where every verb has its own passato remoto nightmare).\n\nたべます → たべました (eat → ate)\nのみます → のみました (drink → drank)\nいきます → いきました (go → went)"
+        title: "Past Tense is Just -mashita",
+        text: "To make any polite verb past tense, swap -masu → -mashita. That's it. No irregular forms to memorise (unlike Italian where every verb has its own passato remoto nightmare).\n\ntabemasu → tabemashita (eat → ate)\nnomimasu → nomimashita (drink → drank)\nikimasu → ikimashita (go → went)"
       },
       {
         type: "example",
@@ -327,13 +327,13 @@ const LESSONS = [
   {
     id: 7,
     title: "Questions & Negatives",
-    subtitle: "か turns anything into a question. ません says no.",
+    subtitle: "'ka' turns anything into a question. '-masen' says no.",
     phase: 1,
     content: [
       {
         type: "insight",
         title: "Questions Are FREE",
-        text: "In English you rearrange the whole sentence to ask a question ('You eat sushi' → 'Do you eat sushi?'). In Japanese, you just add か (ka) to the end. That's it. The sentence stays exactly the same.\n\nたべます。= I eat.\nたべますか？= Do you eat?\n\nThis is like Bengali adding কি (ki) at the end: তুমি খাও (you eat) → তুমি খাও কি? (do you eat?)"
+        text: "In English you rearrange the whole sentence to ask a question ('You eat sushi' → 'Do you eat sushi?'). In Japanese, you just add 'ka' to the end. That's it. The sentence stays exactly the same.\n\ntabemasu = I eat.\ntabemasu ka? = Do you eat?\n\nThis is like Bengali adding কি (ki) at the end: tumi khao (you eat) → tumi khao ki? (do you eat?)"
       },
       {
         type: "example",
@@ -345,8 +345,8 @@ const LESSONS = [
       },
       {
         type: "insight",
-        title: "Negatives: ます → ません",
-        text: "To say 'don't/doesn't', swap ます → ません.\nPast negative? ません → ませんでした.\n\nたべます → たべません (don't eat)\nたべました → たべませんでした (didn't eat)"
+        title: "Negatives: -masu → -masen",
+        text: "To say 'don't/doesn't', swap -masu → -masen.\nPast negative? -masen → -masen deshita.\n\ntabemasu → tabemasen (don't eat)\ntabemashita → tabemasen deshita (didn't eat)"
       },
       {
         type: "example",
@@ -373,13 +373,13 @@ const LESSONS = [
   {
     id: 8,
     title: "Describing Things",
-    subtitle: "い-adjectives and な-adjectives",
+    subtitle: "i-adjectives and na-adjectives",
     phase: 2,
     content: [
       {
         type: "insight",
         title: "Two Flavours of Adjective",
-        text: "Japanese has two types of adjective. The good news: they're easy to tell apart.\n\nい-adjectives end in い: おおきい (big), ちいさい (small), たかい (expensive), おいしい (delicious), あたらしい (new)\n\nな-adjectives need な before a noun: きれいな (beautiful), しずかな (quiet), ゆうめいな (famous), げんきな (energetic)"
+        text: "Japanese has two types of adjective. The good news: they're easy to tell apart.\n\ni-adjectives end in -i: ookii (big), chiisai (small), takai (expensive), oishii (delicious), atarashii (new)\n\nna-adjectives need 'na' before a noun: kirei na (beautiful), shizuka na (quiet), yuumei na (famous), genki na (energetic)"
       },
       {
         type: "example",
@@ -401,20 +401,20 @@ const LESSONS = [
       {
         type: "insight",
         title: "Negative Adjectives",
-        text: "い-adjectives: drop い, add くない\nおいしい → おいしくない (not delicious)\nたかい → たかくない (not expensive)\n\nな-adjectives: add じゃない\nしずかな → しずかじゃない (not quiet)"
+        text: "i-adjectives: drop -i, add -kunai\noishii → oishikunai (not delicious)\ntakai → takakunai (not expensive)\n\nna-adjectives: add ja nai\nshizuka na → shizuka ja nai (not quiet)"
       }
     ]
   },
   {
     id: 9,
     title: "Wanting & Reasons",
-    subtitle: "～たい (want to) and から (because)",
+    subtitle: "-tai (want to) and kara (because)",
     phase: 2,
     content: [
       {
         type: "insight",
-        title: "Wanting To Do Something: ～たい",
-        text: "Take any ます-form verb, drop ます, add たい.\n\nたべます → たべたい (want to eat)\nいきます → いきたい (want to go)\nのみます → のみたい (want to drink)\n\nThis たい ending works like an い-adjective! So 'didn't want to' = たべたくなかった."
+        title: "Wanting To Do Something: -tai",
+        text: "Take any -masu form verb, drop -masu, add -tai.\n\ntabemasu → tabetai (want to eat)\nikimasu → ikitai (want to go)\nnomimasu → nomitai (want to drink)\n\nThis -tai ending works like an i-adjective! So 'didn't want to' = tabetakunakatta."
       },
       {
         type: "example",
@@ -428,8 +428,8 @@ const LESSONS = [
       },
       {
         type: "insight",
-        title: "New Block: から (because/so)",
-        text: "から is a reason connector. It goes AFTER the reason clause.\n\nStructure: [Reason] + から + [Result]\n\nおいしいですから、まいにち たべます。\n= Because it's delicious, I eat it every day.\n\nThis is like Bengali কারণ (karon) but placed differently."
+        title: "New Block: kara (because/so)",
+        text: "kara is a reason connector. It goes AFTER the reason clause.\n\nStructure: [Reason] + kara + [Result]\n\noishii desu kara, mainichi tabemasu.\n= Because it's delicious, I eat it every day.\n\nThis is like Bengali কারণ (karon) but placed differently."
       },
       {
         type: "example",
@@ -449,8 +449,8 @@ const LESSONS = [
     content: [
       {
         type: "insight",
-        title: "The て-Form: Your Multi-Tool",
-        text: "The て-form is like a Swiss Army knife. It lets you:\n• Make requests (たべてください = please eat)\n• Connect actions (たべて、のんで = ate and drank)\n• Describe ongoing states (たべている = am eating)\n\nFor ます-form verbs, a simple rule: drop ます, add て.\nたべます → たべて\nみます → みて\n\n(Some verbs have irregular て-forms, but we'll learn the main ones.)"
+        title: "The te-Form: Your Multi-Tool",
+        text: "The te-form is like a Swiss Army knife. It lets you:\n• Make requests (tabete kudasai = please eat)\n• Connect actions (tabete, nonde = ate and drank)\n• Describe ongoing states (tabete iru = am eating)\n\nFor -masu form verbs, a simple rule: drop -masu, add -te.\ntabemasu → tabete\nmimasu → mite\n\n(Some verbs have irregular te-forms, but we'll learn the main ones.)"
       },
       {
         type: "example",
@@ -463,8 +463,8 @@ const LESSONS = [
       },
       {
         type: "insight",
-        title: "Connecting Actions with て",
-        text: "Use て to chain actions — like 'and then'.\n\nあさ おきて、コーヒーを のんで、しごとに いきます。\n= Morning, I wake up, (and then) drink coffee, (and then) go to work.\n\nOnly the LAST verb gets the tense ending (ます/ました)."
+        title: "Connecting Actions with te",
+        text: "Use te to chain actions — like 'and then'.\n\nasa okite, koohii o nonde, shigoto ni ikimasu.\n= Morning, I wake up, (and then) drink coffee, (and then) go to work.\n\nOnly the LAST verb gets the tense ending (-masu / -mashita)."
       },
       {
         type: "example",
@@ -694,8 +694,8 @@ function LessonContent({ lesson, onComplete, progress }) {
                   alignItems: "center", justifyContent: "center", background: "var(--card-alt)",
                   borderRadius: 12, border: "2px solid var(--border)",
                 }}>
-                  <span style={{ fontSize: 28, fontWeight: 700, color: "var(--accent)" }}>{ch.h}</span>
-                  <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{ch.r}</span>
+                  <span style={{ fontSize: 28, fontWeight: 700, color: "var(--accent)" }}>{ch.r}</span>
+                  <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{ch.h}</span>
                 </div>
               ))}
             </div>
@@ -747,7 +747,7 @@ function LessonContent({ lesson, onComplete, progress }) {
                   background: p.color + "12", borderRadius: 12, border: `1px solid ${p.color}40`,
                   flexWrap: "wrap",
                 }}>
-                  <span style={{ fontSize: 28, fontWeight: 800, color: p.color, minWidth: 40, textAlign: "center" }}>{p.p}</span>
+                  <span style={{ fontSize: 28, fontWeight: 800, color: p.color, minWidth: 40, textAlign: "center" }}>{p.r}</span>
                   <div style={{ flex: 1, minWidth: 150 }}>
                     <div style={{ fontWeight: 700, color: "var(--text)", fontSize: 14 }}>{p.role} ({p.r})</div>
                     <div style={{ color: "var(--text-dim)", fontSize: 13 }}>{p.ex} = "{p.exEn}"</div>
@@ -800,9 +800,9 @@ function LessonContent({ lesson, onComplete, progress }) {
                   padding: "12px", background: "var(--card-alt)", borderRadius: 10,
                   textAlign: "center", border: "1px solid var(--border)",
                 }}>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: "var(--accent)" }}>{w.k}</div>
-                  <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{w.r}</div>
-                  <div style={{ fontSize: 14, color: "var(--text)", fontWeight: 600 }}>{w.en}</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: "var(--accent)" }}>{w.en}</div>
+                  <div style={{ fontSize: 15, color: "var(--text)", fontWeight: 600 }}>{w.r}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{w.k}</div>
                 </div>
               ))}
             </div>
@@ -824,8 +824,8 @@ function LessonContent({ lesson, onComplete, progress }) {
                     background: l.speaker === "You" ? "var(--accent)" + "22" : "var(--card-alt)",
                     border: `1px solid ${l.speaker === "You" ? "var(--accent)" : "var(--border)"}`,
                   }}>
-                    <div style={{ fontSize: 17, fontWeight: 600, color: "var(--text)" }}>{l.jp}</div>
-                    <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{l.r}</div>
+                    <div style={{ fontSize: 17, fontWeight: 600, color: "var(--text)" }}>{l.r}</div>
+                    <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{l.jp}</div>
                     <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic", marginTop: 2 }}>{l.en}</div>
                   </div>
                 </div>
@@ -1685,7 +1685,7 @@ export default function JapaneseLearningApp() {
             }}>
               <p style={{ margin: "0 0 10px", fontSize: 13, fontWeight: 700, color: "var(--accent)" }}>THE BLOCK ORDER:</p>
               <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
-                {["Who は", "Time", "Place で", "What を", "How", "Verb"].map((b, i) => (
+                {["Who wa", "Time", "Place de", "What o", "How", "Verb"].map((b, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
                     <span style={{
                       padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700,
