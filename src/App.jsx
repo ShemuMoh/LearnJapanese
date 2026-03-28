@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useRef } from "react";
 
 // ============================================================
@@ -486,7 +485,7 @@ const QUIZZES = [
     afterLesson: 1,
     title: "Sound System Check",
     questions: [
-      { q: "What does あ sound like?", options: ["a (as in 'pasta')", "e (as in 'egg')", "o (as in 'go')", "u (as in 'blue')"], correct: 0 },
+      { q: "What does 'a' sound like in Japanese?", options: ["a (as in 'pasta')", "e (as in 'egg')", "o (as in 'go')", "u (as in 'blue')"], correct: 0 },
       { q: "In the block method, where does the verb go?", options: ["First", "Middle", "Last", "Anywhere"], correct: 2 },
       { q: "Which language shares the same word order as Japanese?", options: ["English", "Italian", "Bengali", "French"], correct: 2 },
       { q: "What is the correct block order?", options: ["Verb → Who → What", "Who → Time → Place → What → How → Verb", "What → Who → Verb", "Time → Verb → Who"], correct: 1 },
@@ -496,51 +495,51 @@ const QUIZZES = [
     afterLesson: 2,
     title: "Particle Power",
     questions: [
-      { q: "Which particle marks the topic/subject?", options: ["を (o)", "は (wa)", "の (no)", "に (ni)"], correct: 1 },
-      { q: "わたしの means:", options: ["I (topic)", "to me", "my", "me too"], correct: 2 },
-      { q: "Which particle marks where an action happens?", options: ["は (wa)", "で (de)", "を (o)", "の (no)"], correct: 1 },
-      { q: "カフェで means:", options: ["café's", "to a café", "at a café", "café (object)"], correct: 2 },
-      { q: "Which particle marks the object of an action?", options: ["は (wa)", "に (ni)", "で (de)", "を (o)"], correct: 3 },
+      { q: "Which particle marks the topic/subject?", options: ["o", "wa", "no", "ni"], correct: 1 },
+      { q: "'watashi no' means:", options: ["I (topic)", "to me", "my", "me too"], correct: 2 },
+      { q: "Which particle marks where an action happens?", options: ["wa", "de", "o", "no"], correct: 1 },
+      { q: "'kafe de' means:", options: ["café's", "to a café", "at a café", "café (object)"], correct: 2 },
+      { q: "Which particle marks the object of an action?", options: ["wa", "ni", "de", "o"], correct: 3 },
     ]
   },
   {
     afterLesson: 3,
     title: "Verb Master",
     questions: [
-      { q: "What is the polite form of たべる (eat)?", options: ["たべます", "たべました", "たべません", "たべて"], correct: 0 },
-      { q: "How do you say 'drank' in polite Japanese?", options: ["のみます", "のみません", "のみました", "のんで"], correct: 2 },
+      { q: "What is the polite form of 'taberu' (eat)?", options: ["tabemasu", "tabemashita", "tabemasen", "tabete"], correct: 0 },
+      { q: "How do you say 'drank' in polite Japanese?", options: ["nomimasu", "nomimasen", "nomimashita", "nonde"], correct: 2 },
       { q: "How many basic polite forms does a Japanese verb have?", options: ["2", "4", "8", "50+"], correct: 1 },
-      { q: "What is the negative of いきます (go)?", options: ["いきました", "いきません", "いかない", "いって"], correct: 1 },
+      { q: "What is the negative of 'ikimasu' (go)?", options: ["ikimashita", "ikimasen", "ikanai", "itte"], correct: 1 },
     ]
   },
   {
     afterLesson: 5,
     title: "Katakana Detective",
     questions: [
-      { q: "コーヒー means:", options: ["tea", "coffee", "milk", "water"], correct: 1 },
+      { q: "'koohii' means:", options: ["tea", "coffee", "milk", "water"], correct: 1 },
       { q: "Which writing system is used for borrowed English words?", options: ["Hiragana", "Kanji", "Katakana", "Romaji"], correct: 2 },
-      { q: "レストラン means:", options: ["restroom", "restaurant", "reception", "rental"], correct: 1 },
-      { q: "Japanese double consonants (きっぷ) are similar to:", options: ["English contractions", "Italian gemination (fatto, pizza)", "Bengali conjuncts", "French liaison"], correct: 1 },
+      { q: "'resutoran' means:", options: ["restroom", "restaurant", "reception", "rental"], correct: 1 },
+      { q: "Japanese double consonants (kippu) are similar to:", options: ["English contractions", "Italian gemination (fatto, pizza)", "Bengali conjuncts", "French liaison"], correct: 1 },
     ]
   },
   {
     afterLesson: 7,
     title: "Questions & Negatives",
     questions: [
-      { q: "How do you turn a statement into a question?", options: ["Change word order", "Add か (ka) at the end", "Change the verb", "Add a question mark only"], correct: 1 },
-      { q: "たべません means:", options: ["I ate", "I eat", "I don't eat", "Do I eat?"], correct: 2 },
-      { q: "What is 'didn't go' in polite Japanese?", options: ["いきません", "いきませんでした", "いかなかった", "いきましたか"], correct: 1 },
-      { q: "Bengali কি (ki) at the end of a sentence is like Japanese:", options: ["は (wa)", "か (ka)", "を (o)", "ね (ne)"], correct: 1 },
+      { q: "How do you turn a statement into a question?", options: ["Change word order", "Add 'ka' at the end", "Change the verb", "Add a question mark only"], correct: 1 },
+      { q: "'tabemasen' means:", options: ["I ate", "I eat", "I don't eat", "Do I eat?"], correct: 2 },
+      { q: "What is 'didn't go' in polite Japanese?", options: ["ikimasen", "ikimasen deshita", "ikanakatta", "ikimashita ka"], correct: 1 },
+      { q: "Bengali 'ki' at the end of a sentence is like Japanese:", options: ["wa", "ka", "o", "ne"], correct: 1 },
     ]
   },
   {
     afterLesson: 9,
     title: "Wants & Reasons",
     questions: [
-      { q: "How do you say 'want to eat'?", options: ["たべます", "たべたい", "たべて", "たべから"], correct: 1 },
-      { q: "から means:", options: ["but", "and", "because", "if"], correct: 2 },
-      { q: "たべたい works like what type of word?", options: ["A verb", "An い-adjective", "A な-adjective", "A particle"], correct: 1 },
-      { q: "いきたいです means:", options: ["I went", "I will go", "I want to go", "Please go"], correct: 2 },
+      { q: "How do you say 'want to eat'?", options: ["tabemasu", "tabetai", "tabete", "tabe kara"], correct: 1 },
+      { q: "'kara' means:", options: ["but", "and", "because", "if"], correct: 2 },
+      { q: "'tabetai' works like what type of word?", options: ["A verb", "An i-adjective", "A na-adjective", "A particle"], correct: 1 },
+      { q: "'ikitai desu' means:", options: ["I went", "I will go", "I want to go", "Please go"], correct: 2 },
     ]
   },
 ];
@@ -550,64 +549,64 @@ const BLOCK_BUILDER_SENTENCES = [
   {
     en: "I eat sushi.",
     blocks: [
-      { jp: "わたしは", label: "Who" },
-      { jp: "すしを", label: "What" },
-      { jp: "たべます", label: "Verb" },
+      { jp: "watashi wa", label: "Who" },
+      { jp: "sushi o", label: "What" },
+      { jp: "tabemasu", label: "Verb" },
     ],
-    distractors: ["きのう", "がっこうで"]
+    distractors: ["kinou", "gakkou de"]
   },
   {
     en: "Yesterday I drank coffee.",
     blocks: [
-      { jp: "わたしは", label: "Who" },
-      { jp: "きのう", label: "Time" },
-      { jp: "コーヒーを", label: "What" },
-      { jp: "のみました", label: "Verb" },
+      { jp: "watashi wa", label: "Who" },
+      { jp: "kinou", label: "Time" },
+      { jp: "koohii o", label: "What" },
+      { jp: "nomimashita", label: "Verb" },
     ],
-    distractors: ["レストランで", "たべます"]
+    distractors: ["resutoran de", "tabemasu"]
   },
   {
     en: "I go to school every day.",
     blocks: [
-      { jp: "わたしは", label: "Who" },
-      { jp: "まいにち", label: "Time" },
-      { jp: "がっこうに", label: "Place" },
-      { jp: "いきます", label: "Verb" },
+      { jp: "watashi wa", label: "Who" },
+      { jp: "mainichi", label: "Time" },
+      { jp: "gakkou ni", label: "Place" },
+      { jp: "ikimasu", label: "Verb" },
     ],
-    distractors: ["コーヒーを", "のみました"]
+    distractors: ["koohii o", "nomimashita"]
   },
   {
     en: "I watched TV at home yesterday.",
     blocks: [
-      { jp: "わたしは", label: "Who" },
-      { jp: "きのう", label: "Time" },
-      { jp: "いえで", label: "Place" },
-      { jp: "テレビを", label: "What" },
-      { jp: "みました", label: "Verb" },
+      { jp: "watashi wa", label: "Who" },
+      { jp: "kinou", label: "Time" },
+      { jp: "ie de", label: "Place" },
+      { jp: "terebi o", label: "What" },
+      { jp: "mimashita", label: "Verb" },
     ],
-    distractors: ["がっこうに"]
+    distractors: ["gakkou ni"]
   },
   {
     en: "I want to eat ramen tomorrow.",
     blocks: [
-      { jp: "わたしは", label: "Who" },
-      { jp: "あした", label: "Time" },
-      { jp: "ラーメンを", label: "What" },
-      { jp: "たべたいです", label: "Verb" },
+      { jp: "watashi wa", label: "Who" },
+      { jp: "ashita", label: "Time" },
+      { jp: "raamen o", label: "What" },
+      { jp: "tabetai desu", label: "Verb" },
     ],
-    distractors: ["きのう", "のみます"]
+    distractors: ["kinou", "nomimasu"]
   },
 ];
 
 const PARTICLE_FILL_SENTENCES = [
-  { before: "わたし", after: "コーヒーを のみます", particle: "は", hint: "I (topic) drink coffee" },
-  { before: "カフェ", after: "コーヒーを のみます", particle: "で", hint: "I drink coffee at a café" },
-  { before: "コーヒー", after: "のみます", particle: "を", hint: "I drink coffee" },
-  { before: "がっこう", after: "いきます", particle: "に", hint: "I go to school" },
-  { before: "わたし", after: "ともだち", particle: "の", hint: "My friend" },
-  { before: "レストラン", after: "すしを たべました", particle: "で", hint: "I ate sushi at a restaurant" },
-  { before: "ほん", after: "よみます", particle: "を", hint: "I read a book" },
-  { before: "ともだち", after: "いきます", particle: "と", hint: "I go with a friend" },
+  { before: "watashi", after: "koohii o nomimasu", particle: "wa", hint: "I (topic) drink coffee" },
+  { before: "kafe", after: "koohii o nomimasu", particle: "de", hint: "I drink coffee at a café" },
+  { before: "koohii", after: "nomimasu", particle: "o", hint: "I drink coffee" },
+  { before: "gakkou", after: "ikimasu", particle: "ni", hint: "I go to school" },
+  { before: "watashi", after: "tomodachi", particle: "no", hint: "My friend" },
+  { before: "resutoran", after: "sushi o tabemashita", particle: "de", hint: "I ate sushi at a restaurant" },
+  { before: "hon", after: "yomimasu", particle: "o", hint: "I read a book" },
+  { before: "tomodachi", after: "ikimasu", particle: "to", hint: "I go with a friend" },
 ];
 
 // ============================================================
@@ -662,8 +661,8 @@ function Block({ label, jp, romaji, animate = false, index = 0 }) {
       position: "relative",
     }}>
       <span style={{ fontSize: 10, fontWeight: 700, color: color, textTransform: "uppercase", letterSpacing: 1 }}>{label}</span>
-      <span style={{ fontSize: 20, fontWeight: 600, color: "var(--text)" }}>{jp}</span>
-      {romaji && <span style={{ fontSize: 11, color: "var(--text-dim)", fontStyle: "italic" }}>{romaji}</span>}
+      <span style={{ fontSize: 20, fontWeight: 600, color: "var(--text)" }}>{romaji || jp}</span>
+      {romaji && <span style={{ fontSize: 11, color: "var(--text-dim)", fontStyle: "italic" }}>{jp}</span>}
     </div>
   );
 }
@@ -1114,7 +1113,7 @@ function ParticleFill({ onComplete }) {
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
 
-  const particles = ["は", "を", "の", "に", "で", "と"];
+  const particles = ["wa", "o", "no", "ni", "de", "to"];
   const items = PARTICLE_FILL_SENTENCES;
   const current = items[level];
 
@@ -1180,7 +1179,7 @@ function ParticleFill({ onComplete }) {
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginBottom: 20 }}>
         {particles.map(p => {
-          const pData = PARTICLES_DATA.find(pd => pd.p === p);
+          const pData = PARTICLES_DATA.find(pd => pd.r === p);
           const color = pData?.color || "var(--accent)";
           let bg = color + "12";
           let borderC = color + "60";
@@ -1188,10 +1187,10 @@ function ParticleFill({ onComplete }) {
           else if (showResult && p === selected && p !== current.particle) { bg = "#ef444422"; borderC = "#ef4444"; }
           return (
             <button key={p} onClick={() => handleSelect(p)} style={{
-              width: 56, height: 56, borderRadius: 12, border: `2px solid ${borderC}`,
+              minWidth: 56, height: 56, borderRadius: 12, border: `2px solid ${borderC}`,
               background: bg, cursor: showResult ? "default" : "pointer",
-              fontSize: 24, fontWeight: 700, color: "var(--text)", display: "flex",
-              alignItems: "center", justifyContent: "center",
+              fontSize: 20, fontWeight: 700, color: "var(--text)", display: "flex",
+              alignItems: "center", justifyContent: "center", padding: "0 14px",
             }}>
               {p}
             </button>
@@ -1203,7 +1202,7 @@ function ParticleFill({ onComplete }) {
         <div style={{ textAlign: "center" }}>
           {selected !== current.particle && (
             <p style={{ color: "#ef4444", fontSize: 14, marginBottom: 12 }}>
-              The correct particle is <strong>{current.particle}</strong> ({PARTICLES_DATA.find(p => p.p === current.particle)?.role})
+              The correct particle is <strong>{current.particle}</strong> ({PARTICLES_DATA.find(p => p.r === current.particle)?.role})
             </p>
           )}
           <button onClick={next} style={btnPrimary}>
@@ -1215,12 +1214,32 @@ function ParticleFill({ onComplete }) {
   );
 }
 
-// Hiragana Speed Match Minigame
+// Vocab Speed Minigame — shows English, type the romaji
 function HiraganaMatch({ onComplete }) {
-  const allChars = Object.values(HIRAGANA_CHART).flat().filter(Boolean);
-  const [chars] = useState(() => {
-    const shuffled = [...allChars].sort(() => Math.random() - 0.5).slice(0, 10);
-    return shuffled;
+  const vocabPool = [
+    { en: "eat (polite)", r: "tabemasu" },
+    { en: "drink (polite)", r: "nomimasu" },
+    { en: "go (polite)", r: "ikimasu" },
+    { en: "come (polite)", r: "kimasu" },
+    { en: "see (polite)", r: "mimasu" },
+    { en: "do (polite)", r: "shimasu" },
+    { en: "buy (polite)", r: "kaimasu" },
+    { en: "read (polite)", r: "yomimasu" },
+    { en: "yesterday", r: "kinou" },
+    { en: "tomorrow", r: "ashita" },
+    { en: "today", r: "kyou" },
+    { en: "every day", r: "mainichi" },
+    { en: "coffee", r: "koohii" },
+    { en: "restaurant", r: "resutoran" },
+    { en: "school", r: "gakkou" },
+    { en: "friend", r: "tomodachi" },
+    { en: "book", r: "hon" },
+    { en: "I / me", r: "watashi" },
+    { en: "sushi", r: "sushi" },
+    { en: "house / home", r: "ie" },
+  ];
+  const [words] = useState(() => {
+    return [...vocabPool].sort(() => Math.random() - 0.5).slice(0, 10);
   });
   const [current, setCurrent] = useState(0);
   const [input, setInput] = useState("");
@@ -1235,11 +1254,11 @@ function HiraganaMatch({ onComplete }) {
   }, [current, finished]);
 
   const check = () => {
-    const correct = input.trim().toLowerCase() === chars[current].r;
+    const correct = input.trim().toLowerCase() === words[current].r;
     setShowResult(true);
     if (correct) setScore(s => s + 1);
     setTimeout(() => {
-      if (current < chars.length - 1) {
+      if (current < words.length - 1) {
         setCurrent(c => c + 1);
         setInput("");
         setShowResult(false);
@@ -1247,7 +1266,7 @@ function HiraganaMatch({ onComplete }) {
         setFinished(true);
         onComplete(score + (correct ? 1 : 0));
       }
-    }, 800);
+    }, 1200);
   };
 
   if (finished) {
@@ -1255,33 +1274,33 @@ function HiraganaMatch({ onComplete }) {
     return (
       <div style={{ textAlign: "center", padding: 40 }}>
         <div style={{ fontSize: 60, marginBottom: 16 }}>⚡</div>
-        <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Speed Match Complete!</h2>
-        <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score}/{chars.length} correct in {time}s</p>
+        <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Vocab Speed Complete!</h2>
+        <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score}/{words.length} correct in {time}s</p>
         <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{score * 8} XP earned!</p>
       </div>
     );
   }
 
-  const ch = chars[current];
+  const w = words[current];
 
   return (
     <div style={{ textAlign: "center" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{current + 1}/{chars.length}</span>
+        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{current + 1}/{words.length}</span>
         <div style={{ flex: 1, height: 4, background: "var(--border)", borderRadius: 2 }}>
-          <div style={{ width: `${((current + 1) / chars.length) * 100}%`, height: "100%", background: "var(--accent)", borderRadius: 2 }} />
+          <div style={{ width: `${((current + 1) / words.length) * 100}%`, height: "100%", background: "var(--accent)", borderRadius: 2 }} />
         </div>
         <span style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>🏆 {score}</span>
       </div>
 
+      <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 8 }}>Type the Japanese (romaji) for:</p>
+
       <div style={{
-        fontSize: 80, fontWeight: 700, color: "var(--accent)", marginBottom: 24,
+        fontSize: 36, fontWeight: 700, color: "var(--accent)", marginBottom: 24,
         animation: "fadeIn 0.3s ease",
       }}>
-        {ch.h}
+        {w.en}
       </div>
-
-      <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 12 }}>Type the romaji:</p>
 
       <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
         <input
@@ -1290,18 +1309,21 @@ function HiraganaMatch({ onComplete }) {
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && input) check(); }}
           style={{
-            padding: "12px 20px", fontSize: 20, borderRadius: 12, border: `2px solid ${showResult ? (input.trim().toLowerCase() === ch.r ? "#22c55e" : "#ef4444") : "var(--border)"}`,
-            background: "var(--card)", color: "var(--text)", textAlign: "center", width: 120,
+            padding: "12px 20px", fontSize: 20, borderRadius: 12, border: `2px solid ${showResult ? (input.trim().toLowerCase() === w.r ? "#22c55e" : "#ef4444") : "var(--border)"}`,
+            background: "var(--card)", color: "var(--text)", textAlign: "center", width: 200,
             outline: "none",
           }}
-          placeholder="..."
+          placeholder="type romaji..."
           disabled={showResult}
         />
         <button onClick={check} disabled={!input || showResult} style={{ ...btnPrimary, opacity: (!input || showResult) ? 0.4 : 1 }}>Go</button>
       </div>
 
-      {showResult && input.trim().toLowerCase() !== ch.r && (
-        <p style={{ color: "#ef4444", fontSize: 14, marginTop: 12 }}>It's <strong>{ch.r}</strong></p>
+      {showResult && input.trim().toLowerCase() !== w.r && (
+        <p style={{ color: "#ef4444", fontSize: 14, marginTop: 12 }}>It's <strong>{w.r}</strong></p>
+      )}
+      {showResult && input.trim().toLowerCase() === w.r && (
+        <p style={{ color: "#22c55e", fontSize: 14, marginTop: 12 }}>✓ Correct!</p>
       )}
     </div>
   );
@@ -1448,7 +1470,7 @@ export default function JapaneseLearningApp() {
   const minigames = [
     { id: "blocks", name: "Block Builder", icon: "🏗️", desc: "Arrange blocks to build sentences", minLesson: 1 },
     { id: "particles", name: "Particle Fill", icon: "🧩", desc: "Choose the right particle", minLesson: 2 },
-    { id: "hiragana", name: "Hiragana Speed", icon: "⚡", desc: "Type romaji as fast as you can", minLesson: 1 },
+    { id: "hiragana", name: "Vocab Speed", icon: "⚡", desc: "Type the romaji as fast as you can", minLesson: 1 },
   ];
 
   return (
