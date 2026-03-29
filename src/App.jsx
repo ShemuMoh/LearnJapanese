@@ -79,6 +79,181 @@ const BLOCK_COLORS = {
   verb: "#45B7D1",
 };
 
+// ============================================================
+// GRAMMAR NOTES — explains WHY things work
+// ============================================================
+const GRAMMAR_NOTES = {
+  wa: {
+    title: "Why 'wa' (は)?",
+    text: "は is written 'ha' in hiragana but pronounced 'wa' when used as a particle. It marks what you're talking ABOUT — the topic. Think of it as saying 'As for...' — 'watashi wa' = 'As for me...'. Unlike English subjects, the topic can be anything — 'kyou wa' = 'As for today...'.",
+    tip: "If you can replace it with 'As for...', use wa."
+  },
+  o: {
+    title: "Why 'o' (を)?",
+    text: "を marks the direct object — the thing being acted upon. 'koohii o nomimasu' = 'I drink coffee'. Coffee is the thing being drunk, so it gets 'o'. を is written 'wo' in hiragana but pronounced 'o'.",
+    tip: "Ask: 'What is being [verbed]?' That word gets o."
+  },
+  ni: {
+    title: "Why 'ni' (に)?",
+    text: "に marks a specific target, destination, or point in time. 'gakkou ni ikimasu' = 'I go TO school'. 'sanji ni' = 'AT 3 o'clock'. Think of ni as a precise pin on a map — it points to exactly where or when.",
+    tip: "ni = specific destination or exact time."
+  },
+  de: {
+    title: "Why 'de' (で)?",
+    text: "で marks WHERE an action takes place, or the means/tool used. 'kafe de nomimasu' = 'I drink AT a café'. 'basu de ikimasu' = 'I go BY bus'. The key difference from ni: de is about the location/method of an ACTION.",
+    tip: "ni = destination (going TO). de = activity location (doing AT)."
+  },
+  masu: {
+    title: "The -masu System",
+    text: "The -masu ending is polite/formal Japanese. It's the default you use with strangers, colleagues, and anyone you don't know well. There are exactly 4 patterns:\n\n-masu (present/future positive)\n-mashita (past positive)\n-masen (present/future negative)\n-masen deshita (past negative)\n\nThe subject (I/you/they) is almost always dropped because context makes it clear.",
+    tip: "Always use -masu form until someone invites you to use casual speech."
+  },
+  te: {
+    title: "The te-Form Explained",
+    text: "The te-form is the most versatile conjugation. It connects actions ('ate AND drank'), makes requests ('please eat'), describes ongoing states ('am eating'), and more. For Group 2 verbs (ichidan), just drop -ru and add -te. Group 1 verbs (godan) have sound-change rules.",
+    tip: "te-form = the 'connecting' form. Master it and Japanese opens up."
+  },
+  adjectives: {
+    title: "i vs na Adjectives",
+    text: "i-adjectives are native Japanese words ending in -i. They conjugate by themselves: oishii → oishikunai (not delicious) → oishikatta (was delicious). na-adjectives are often borrowed words and need 'na' before nouns: kirei na hana (beautiful flower). They use 'ja nai' for negation.",
+    tip: "If it ends in -i and isn't a known na-adj, it's an i-adj."
+  },
+  counters: {
+    title: "Why Counters?",
+    text: "In English we say '3 books'. In Japanese, you need a counter word between the number and noun — like English 'sheets' in '3 sheets of paper'. Different shapes/types of objects use different counters. This sounds complex, but you really only need 5–6 counters for daily life.",
+    tip: "Start with -tsu (general), -nin (people), -hon (long things), -mai (flat things)."
+  },
+  casual: {
+    title: "Polite vs Casual Speech",
+    text: "Casual speech drops -masu and uses the dictionary form of verbs. 'tabemasu' → 'taberu'. This is what friends, family, and close colleagues use. Using casual too early can be rude; using polite too long with friends can feel cold. Japanese people will signal when to switch by using casual speech themselves.",
+    tip: "Match the other person's level. When in doubt, stay polite."
+  }
+};
+
+// ============================================================
+// ALL VOCAB — for spaced repetition
+// ============================================================
+const ALL_VOCAB = [
+  { id: "v1", en: "I / me", r: "watashi", jp: "わたし", lesson: 1 },
+  { id: "v2", en: "sushi", r: "sushi", jp: "すし", lesson: 1 },
+  { id: "v3", en: "eat (polite)", r: "tabemasu", jp: "たべます", lesson: 1 },
+  { id: "v4", en: "drink (polite)", r: "nomimasu", jp: "のみます", lesson: 1 },
+  { id: "v5", en: "friend", r: "tomodachi", jp: "ともだち", lesson: 2 },
+  { id: "v6", en: "school", r: "gakkou", jp: "がっこう", lesson: 2 },
+  { id: "v7", en: "house / home", r: "ie", jp: "いえ", lesson: 2 },
+  { id: "v8", en: "television", r: "terebi", jp: "テレビ", lesson: 2 },
+  { id: "v9", en: "go (polite)", r: "ikimasu", jp: "いきます", lesson: 3 },
+  { id: "v10", en: "come (polite)", r: "kimasu", jp: "きます", lesson: 3 },
+  { id: "v11", en: "see (polite)", r: "mimasu", jp: "みます", lesson: 3 },
+  { id: "v12", en: "do (polite)", r: "shimasu", jp: "します", lesson: 3 },
+  { id: "v13", en: "buy (polite)", r: "kaimasu", jp: "かいます", lesson: 3 },
+  { id: "v14", en: "read (polite)", r: "yomimasu", jp: "よみます", lesson: 3 },
+  { id: "v15", en: "write (polite)", r: "kakimasu", jp: "かきます", lesson: 3 },
+  { id: "v16", en: "speak (polite)", r: "hanashimasu", jp: "はなします", lesson: 3 },
+  { id: "v17", en: "ramen", r: "raamen", jp: "ラーメン", lesson: 3 },
+  { id: "v18", en: "beer", r: "biiru", jp: "ビール", lesson: 3 },
+  { id: "v19", en: "nice to meet you", r: "hajimemashite", jp: "はじめまして", lesson: 4 },
+  { id: "v20", en: "please (formal)", r: "onegaishimasu", jp: "おねがいします", lesson: 4 },
+  { id: "v21", en: "coffee", r: "koohii", jp: "コーヒー", lesson: 5 },
+  { id: "v22", en: "restaurant", r: "resutoran", jp: "レストラン", lesson: 5 },
+  { id: "v23", en: "hotel", r: "hoteru", jp: "ホテル", lesson: 5 },
+  { id: "v24", en: "taxi", r: "takushii", jp: "タクシー", lesson: 5 },
+  { id: "v25", en: "bread", r: "pan", jp: "パン", lesson: 5 },
+  { id: "v26", en: "yesterday", r: "kinou", jp: "きのう", lesson: 6 },
+  { id: "v27", en: "today", r: "kyou", jp: "きょう", lesson: 6 },
+  { id: "v28", en: "tomorrow", r: "ashita", jp: "あした", lesson: 6 },
+  { id: "v29", en: "every day", r: "mainichi", jp: "まいにち", lesson: 6 },
+  { id: "v30", en: "book", r: "hon", jp: "ほん", lesson: 6 },
+  { id: "v31", en: "what", r: "nani", jp: "なに", lesson: 7 },
+  { id: "v32", en: "milk", r: "miruku", jp: "ミルク", lesson: 7 },
+  { id: "v33", en: "delicious", r: "oishii", jp: "おいしい", lesson: 8 },
+  { id: "v34", en: "big", r: "ookii", jp: "おおきい", lesson: 8 },
+  { id: "v35", en: "small", r: "chiisai", jp: "ちいさい", lesson: 8 },
+  { id: "v36", en: "expensive", r: "takai", jp: "たかい", lesson: 8 },
+  { id: "v37", en: "beautiful", r: "kirei", jp: "きれい", lesson: 8 },
+  { id: "v38", en: "quiet", r: "shizuka", jp: "しずか", lesson: 8 },
+  { id: "v39", en: "want to eat", r: "tabetai", jp: "たべたい", lesson: 9 },
+  { id: "v40", en: "want to go", r: "ikitai", jp: "いきたい", lesson: 9 },
+  { id: "v41", en: "cheap", r: "yasui", jp: "やすい", lesson: 9 },
+  { id: "v42", en: "name", r: "namae", jp: "なまえ", lesson: 10 },
+  { id: "v43", en: "here", r: "koko", jp: "ここ", lesson: 10 },
+  { id: "v44", en: "one (general)", r: "hitotsu", jp: "ひとつ", lesson: 11 },
+  { id: "v45", en: "two (general)", r: "futatsu", jp: "ふたつ", lesson: 11 },
+  { id: "v46", en: "one person", r: "hitori", jp: "ひとり", lesson: 11 },
+  { id: "v47", en: "two people", r: "futari", jp: "ふたり", lesson: 11 },
+  { id: "v48", en: "water", r: "mizu", jp: "みず", lesson: 11 },
+  { id: "v49", en: "please give me", r: "kudasai", jp: "ください", lesson: 11 },
+  { id: "v50", en: "morning", r: "asa", jp: "あさ", lesson: 12 },
+  { id: "v51", en: "night", r: "yoru", jp: "よる", lesson: 12 },
+  { id: "v52", en: "wake up (polite)", r: "okimasu", jp: "おきます", lesson: 12 },
+  { id: "v53", en: "sleep (polite)", r: "nemasu", jp: "ねます", lesson: 12 },
+  { id: "v54", en: "work (polite)", r: "hatarakimasu", jp: "はたらきます", lesson: 12 },
+  { id: "v55", en: "company", r: "kaisha", jp: "かいしゃ", lesson: 12 },
+  { id: "v56", en: "train", r: "densha", jp: "でんしゃ", lesson: 12 },
+  { id: "v57", en: "eat (casual)", r: "taberu", jp: "たべる", lesson: 13 },
+  { id: "v58", en: "go (casual)", r: "iku", jp: "いく", lesson: 13 },
+  { id: "v59", en: "it's okay", r: "daijoubu", jp: "だいじょうぶ", lesson: 13 },
+  { id: "v60", en: "really?", r: "hontou", jp: "ほんとう", lesson: 13 },
+  { id: "v61", en: "amazing", r: "sugoi", jp: "すごい", lesson: 13 },
+  { id: "v62", en: "right", r: "migi", jp: "みぎ", lesson: 14 },
+  { id: "v63", en: "left", r: "hidari", jp: "ひだり", lesson: 14 },
+  { id: "v64", en: "straight ahead", r: "massugu", jp: "まっすぐ", lesson: 14 },
+  { id: "v65", en: "where", r: "doko", jp: "どこ", lesson: 14 },
+  { id: "v66", en: "station", r: "eki", jp: "えき", lesson: 14 },
+  { id: "v67", en: "convenience store", r: "konbini", jp: "コンビニ", lesson: 14 },
+  { id: "v68", en: "mountain", r: "yama", jp: "山", lesson: 15 },
+  { id: "v69", en: "river", r: "kawa", jp: "川", lesson: 15 },
+  { id: "v70", en: "sun / day", r: "nichi", jp: "日", lesson: 15 },
+  { id: "v71", en: "moon / month", r: "tsuki", jp: "月", lesson: 15 },
+  { id: "v72", en: "person", r: "hito", jp: "人", lesson: 15 },
+  { id: "v73", en: "big (kanji)", r: "dai", jp: "大", lesson: 15 },
+  { id: "v74", en: "small (kanji)", r: "shou", jp: "小", lesson: 15 },
+];
+
+// SRS helpers
+function getVocabForReview(progress) {
+  const available = ALL_VOCAB.filter(v => progress.completedLessons.includes(v.lesson));
+  if (available.length === 0) return [];
+  const srsData = progress.srsData || {};
+  const now = Date.now();
+  const scored = available.map(v => {
+    const data = srsData[v.id] || { interval: 0, lastReview: 0, correct: 0, wrong: 0 };
+    const timeSince = now - data.lastReview;
+    const priority = data.lastReview === 0 ? -Infinity : (data.interval - timeSince);
+    return { ...v, srs: data, priority };
+  });
+  scored.sort((a, b) => a.priority - b.priority);
+  return scored.slice(0, 10);
+}
+
+function updateSRS(srsData, vocabId, correct) {
+  const data = srsData[vocabId] || { interval: 0, lastReview: 0, correct: 0, wrong: 0 };
+  const now = Date.now();
+  const intervals = [60000, 600000, 3600000, 28800000, 86400000, 259200000, 604800000, 1209600000, 2592000000];
+  if (correct) {
+    const idx = intervals.findIndex(i => i >= data.interval);
+    const next = Math.min((idx >= 0 ? idx : 0) + 1, intervals.length - 1);
+    return { ...data, interval: intervals[next], lastReview: now, correct: data.correct + 1 };
+  }
+  return { ...data, interval: 60000, lastReview: now, wrong: data.wrong + 1 };
+}
+
+// Audio pronunciation
+function speakJapanese(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "ja-JP";
+  utter.rate = 0.85;
+  const voices = window.speechSynthesis.getVoices();
+  const jaVoice = voices.find(v => v.lang.startsWith("ja"));
+  if (jaVoice) utter.voice = jaVoice;
+  window.speechSynthesis.speak(utter);
+}
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
 const LESSONS = [
   {
     id: 1,
@@ -478,6 +653,124 @@ const LESSONS = [
       }
     ]
   },
+  // ===== NEW LESSONS 11-15 =====
+  {
+    id: 11, title: "Counting & Ordering", subtitle: "Japanese counters — numbers with purpose", phase: 2,
+    content: [
+      { type: "insight", title: "🔢 Why Counters Exist",
+        text: "In English you can say '3 books'. In Japanese, you need a special counter word — like English 'sheets' in '3 sheets of paper'. Japanese does this for EVERYTHING.\n\nThe good news: the general counter -tsu works for most things when you're starting out." },
+      { type: "insight", title: "The General Counter: -tsu",
+        text: "hitotsu = 1 thing\nfutatsu = 2 things\nmittsu = 3 things\nyottsu = 4 things\nitsutsu = 5 things\n\nFor 6+, use the Chinese number + specific counter. But -tsu covers you in most daily situations." },
+      { type: "insight", title: "Essential Counters",
+        text: "-nin (人) = people: hitori (1 person), futari (2 people), sannin (3 people)\n-hon (本) = long/thin things: ippon, nihon, sanbon (pens, bottles, trains)\n-mai (枚) = flat things: ichimai, nimai, sanmai (paper, tickets, plates)\n-hai / -pai / -bai = cups/glasses: ippai, nihai, sanbai" },
+      { type: "conversation", title: "Ordering at a Restaurant", lines: [
+        { speaker: "You", jp: "すみません。", r: "sumimasen.", en: "Excuse me." },
+        { speaker: "Staff", jp: "なんめいさまですか？", r: "nanmei-sama desu ka?", en: "How many people?" },
+        { speaker: "You", jp: "ふたりです。", r: "futari desu.", en: "Two people." },
+        { speaker: "You", jp: "ビールを にはい おねがいします。", r: "biiru o nihai onegaishimasu.", en: "Two beers, please." },
+        { speaker: "Staff", jp: "かしこまりました。", r: "kashikomarimashita.", en: "Certainly. (very polite)" },
+      ]},
+      { type: "example", en: "Please give me three of those.", blocks: [
+        { label: "What", jp: "それを", r: "sore o" },
+        { label: "How", jp: "みっつ", r: "mittsu" },
+        { label: "Verb", jp: "ください", r: "kudasai" },
+      ]},
+      { type: "grammar-note", noteKey: "counters" }
+    ]
+  },
+  {
+    id: 12, title: "Daily Routines", subtitle: "Describing your day with te-form chains", phase: 2,
+    content: [
+      { type: "insight", title: "Real-World Skill: Talking About Your Day",
+        text: "Now you can chain actions with te-form, let's describe a whole day. This is one of the most common real conversations — 'What did you do today?'\n\nNew verbs:\nokimasu = wake up\nnemasu = sleep\nhatarakimasu = work\nshawaa o abimasu = take a shower" },
+      { type: "conversation", title: "What Did You Do Today?", lines: [
+        { speaker: "Friend", jp: "きょう なにを しましたか？", r: "kyou nani o shimashita ka?", en: "What did you do today?" },
+        { speaker: "You", jp: "あさ おきて、シャワーを あびて、コーヒーを のみました。", r: "asa okite, shawaa o abite, koohii o nomimashita.", en: "I woke up, took a shower, and drank coffee." },
+        { speaker: "Friend", jp: "しごとは？", r: "shigoto wa?", en: "How about work?" },
+        { speaker: "You", jp: "でんしゃで かいしゃに いきました。", r: "densha de kaisha ni ikimashita.", en: "I went to the office by train." },
+      ]},
+      { type: "example", en: "Every morning I wake up, eat bread, and go to work.", blocks: [
+        { label: "Time", jp: "まいあさ", r: "maiasa" },
+        { label: "What", jp: "おきて、パンを たべて、", r: "okite, pan o tabete," },
+        { label: "Place", jp: "しごとに", r: "shigoto ni" },
+        { label: "Verb", jp: "いきます", r: "ikimasu" },
+      ]},
+      { type: "insight", title: "Time Words: Expanding Your Toolkit",
+        text: "maiasa = every morning\nmaiban = every evening\nsenshuu = last week\nkonshuu = this week\nraishuu = next week\nsengetsu = last month\nkongetsu = this month\nraigetsu = next month" },
+      { type: "example", en: "Last week I went to Tokyo by train.", blocks: [
+        { label: "Who", jp: "わたしは", r: "watashi wa" },
+        { label: "Time", jp: "せんしゅう", r: "senshuu" },
+        { label: "How", jp: "でんしゃで", r: "densha de" },
+        { label: "Place", jp: "とうきょうに", r: "toukyou ni" },
+        { label: "Verb", jp: "いきました", r: "ikimashita" },
+      ]}
+    ]
+  },
+  {
+    id: 13, title: "Casual Speech", subtitle: "Dropping -masu — talking like a real person", phase: 3,
+    content: [
+      { type: "insight", title: "🎭 Two Modes of Japanese",
+        text: "Everything so far has been polite (-masu) form. But with friends, family, and close colleagues, speakers use casual (dictionary) form.\n\ntabemasu → taberu (eat)\nikimasu → iku (go)\nnomimasu → nomu (drink)\nmimasu → miru (watch)\nshimasu → suru (do)" },
+      { type: "insight", title: "Casual Past & Negative",
+        text: "Casual past: taberu → tabeta (ate)\nCasual negative: taberu → tabenai (don't eat)\nCasual past negative: taberu → tabenakatta (didn't eat)\n\nGroup 1 (godan) verbs have sound changes:\niku → itta (went), ikanai, ikanakatta\nnomu → nonda (drank), nomanai, nomanakatta" },
+      { type: "conversation", title: "Chatting With a Friend", lines: [
+        { speaker: "Friend", jp: "きのう なに した？", r: "kinou nani shita?", en: "What'd you do yesterday?" },
+        { speaker: "You", jp: "ラーメン たべた。すごく おいしかった！", r: "raamen tabeta. sugoku oishikatta!", en: "Ate ramen. It was really delicious!" },
+        { speaker: "Friend", jp: "いいなあ。どこで？", r: "ii naa. doko de?", en: "Nice. Where?" },
+        { speaker: "You", jp: "えきの ちかくの みせ。いっしょに いく？", r: "eki no chikaku no mise. issho ni iku?", en: "A shop near the station. Wanna go together?" },
+        { speaker: "Friend", jp: "いこう！", r: "ikou!", en: "Let's go!" },
+      ]},
+      { type: "insight", title: "Casual Phrases You'll Hear Everywhere",
+        text: "daijoubu = it's fine / I'm okay / no thanks\nhontou? = really?\nsugoi! = amazing! / wow!\nchotto... = um... / a little... (polite hesitation)\nmaji de? = seriously? (very casual)" },
+      { type: "example", en: "I didn't go yesterday.", blocks: [
+        { label: "Time", jp: "きのう", r: "kinou" },
+        { label: "Verb", jp: "いかなかった", r: "ikanakatta" },
+      ]},
+      { type: "grammar-note", noteKey: "casual" }
+    ]
+  },
+  {
+    id: 14, title: "Getting Around", subtitle: "Directions, locations, and asking where things are", phase: 3,
+    content: [
+      { type: "insight", title: "Real-World Skill: Finding Your Way",
+        text: "Getting lost in Japan? These words will save you:\n\nmigi = right\nhidari = left\nmassugu = straight ahead\nchikaku = nearby\ntoi = far\n\n'sumimasen' (excuse me) is your best friend when asking for directions." },
+      { type: "conversation", title: "Asking for Directions", lines: [
+        { speaker: "You", jp: "すみません、えきは どこ ですか？", r: "sumimasen, eki wa doko desu ka?", en: "Excuse me, where is the station?" },
+        { speaker: "Person", jp: "まっすぐ いって、みぎに まがって ください。", r: "massugu itte, migi ni magatte kudasai.", en: "Go straight, then turn right." },
+        { speaker: "You", jp: "どのぐらい かかりますか？", r: "dono gurai kakarimasu ka?", en: "About how long does it take?" },
+        { speaker: "Person", jp: "あるいて ごふんぐらい です。", r: "aruite gofun gurai desu.", en: "About 5 minutes walking." },
+        { speaker: "You", jp: "ありがとうございます！", r: "arigatou gozaimasu!", en: "Thank you very much!" },
+      ]},
+      { type: "insight", title: "Location Words: koko, soko, asoko",
+        text: "Japanese has a neat 'ko-so-a-do' system:\n\nkoko = here (near me)\nsoko = there (near you)\nasoko = over there (far from both)\ndoko = where? (question)\n\nThis pattern repeats: kore/sore/are/dore (this/that/that over there/which)" },
+      { type: "example", en: "Where is the convenience store?", blocks: [
+        { label: "Who", jp: "コンビニは", r: "konbini wa" },
+        { label: "Verb", jp: "どこですか？", r: "doko desu ka?" },
+      ]},
+      { type: "example", en: "Please turn left at the station.", blocks: [
+        { label: "Place", jp: "えきで", r: "eki de" },
+        { label: "How", jp: "ひだりに", r: "hidari ni" },
+        { label: "Verb", jp: "まがってください", r: "magatte kudasai" },
+      ]}
+    ]
+  },
+  {
+    id: 15, title: "First Kanji", subtitle: "10 kanji that tell visual stories", phase: 3,
+    content: [
+      { type: "insight", title: "🎨 Kanji Are Pictures",
+        text: "Don't panic. Kanji started as pictures. 山 (yama) literally looks like a mountain with three peaks. 川 (kawa) looks like flowing water. 日 (hi) is the sun boxed up. 月 (tsuki) is a crescent moon.\n\nYou DON'T need thousands. Start with 10 that tell visual stories." },
+      { type: "insight", title: "The First 10 Kanji",
+        text: "山 = yama = mountain (three peaks)\n川 = kawa = river (flowing lines)\n日 = hi/nichi = sun/day\n月 = tsuki/getsu = moon/month\n火 = hi/ka = fire\n水 = mizu/sui = water\n木 = ki/moku = tree (trunk + branches)\n人 = hito/jin = person (walking legs)\n大 = ookii/dai = big (person stretching)\n小 = chiisai/shou = small (person shrinking)" },
+      { type: "insight", title: "Kanji Readings: On & Kun",
+        text: "Most kanji have TWO readings:\n\nKun-yomi = native Japanese (used when kanji stands alone)\nOn-yomi = Chinese-derived (used in compound words)\n\n山: kun = yama, on = san/zan (Fujisan = Mt. Fuji)\n人: kun = hito, on = jin/nin (nihonjin = Japanese person)\n\nDon't memorise both — learn them naturally through words." },
+      { type: "example", en: "That person is Japanese.", blocks: [
+        { label: "Who", jp: "あのひとは", r: "ano hito wa" },
+        { label: "Verb", jp: "にほんじんです", r: "nihonjin desu" },
+      ]},
+      { type: "insight", title: "Days of the Week — Kanji in Action",
+        text: "getsuyoubi (月曜日) = Monday (moon day)\nkayoubi (火曜日) = Tuesday (fire day)\nsuiyoubi (水曜日) = Wednesday (water day)\nmokuyoubi (木曜日) = Thursday (tree day)\nkinyoubi (金曜日) = Friday (gold day)\ndoyoubi (土曜日) = Saturday (earth day)\nnichiyoubi (日曜日) = Sunday (sun day)" }
+    ]
+  },
 ];
 
 const QUIZZES = [
@@ -540,6 +833,33 @@ const QUIZZES = [
       { q: "'kara' means:", options: ["but", "and", "because", "if"], correct: 2 },
       { q: "'tabetai' works like what type of word?", options: ["A verb", "An i-adjective", "A na-adjective", "A particle"], correct: 1 },
       { q: "'ikitai desu' means:", options: ["I went", "I will go", "I want to go", "Please go"], correct: 2 },
+    ]
+  },
+  {
+    afterLesson: 11, title: "Counting Master",
+    questions: [
+      { q: "What is the general counter for '2 things'?", options: ["niko", "futatsu", "nihai", "ninin"], correct: 1 },
+      { q: "Which counter is used for people?", options: ["-hon", "-mai", "-nin", "-tsu"], correct: 2 },
+      { q: "How do you say '3 people'?", options: ["sannin", "mittsu", "sanmai", "sanbon"], correct: 0 },
+      { q: "'biiru o nihai' means:", options: ["Two beers", "Beer twice", "Second beer", "No beer"], correct: 0 },
+    ]
+  },
+  {
+    afterLesson: 13, title: "Casual vs Polite",
+    questions: [
+      { q: "What is the casual form of 'tabemasu'?", options: ["tabete", "tabetai", "taberu", "tabemashita"], correct: 2 },
+      { q: "'ikanakatta' means:", options: ["want to go", "didn't go (casual)", "went", "let's go"], correct: 1 },
+      { q: "When should you use casual speech?", options: ["With strangers", "In job interviews", "With close friends", "With your boss"], correct: 2 },
+      { q: "'hontou?' means:", options: ["I'm sorry", "Really?", "Let's go", "I understand"], correct: 1 },
+    ]
+  },
+  {
+    afterLesson: 15, title: "First Kanji",
+    questions: [
+      { q: "What does 山 mean?", options: ["river", "mountain", "fire", "tree"], correct: 1 },
+      { q: "Which kanji looks like flowing water?", options: ["山", "火", "川", "木"], correct: 2 },
+      { q: "月 means:", options: ["sun", "fire", "moon/month", "water"], correct: 2 },
+      { q: "getsuyoubi (月曜日) means:", options: ["Sunday", "Monday", "Friday", "Saturday"], correct: 1 },
     ]
   },
 ];
@@ -643,11 +963,141 @@ const DEFAULT_PROGRESS = {
   totalXP: 0,
   streak: 0,
   lastActive: null,
+  displayMode: "romaji",
+  srsData: {},
 };
 
 // ============================================================
 // COMPONENTS
 // ============================================================
+
+// Audio button
+function AudioBtn({ text, size = 28 }) {
+  const [playing, setPlaying] = useState(false);
+  const play = (e) => { e.stopPropagation(); setPlaying(true); speakJapanese(text); setTimeout(() => setPlaying(false), 1500); };
+  return (
+    <button onClick={play} style={{
+      background: playing ? "var(--accent)" + "30" : "transparent", border: "none", cursor: "pointer",
+      padding: 4, borderRadius: 8, display: "inline-flex", alignItems: "center", justifyContent: "center",
+      transition: "all 0.2s", minWidth: size, minHeight: size,
+    }} title="Listen to pronunciation">
+      <span style={{ fontSize: size * 0.55, opacity: playing ? 1 : 0.6 }}>🔊</span>
+    </button>
+  );
+}
+
+// Display mode toggle
+function DisplayModeToggle({ mode, onChange }) {
+  return (
+    <div style={{ display: "flex", gap: 2, background: "var(--card)", borderRadius: 10, padding: 2, border: "1px solid var(--border)" }}>
+      {[{ key: "romaji", label: "Abc" }, { key: "both", label: "Both" }, { key: "kana", label: "あ" }].map(m => (
+        <button key={m.key} onClick={() => onChange(m.key)} style={{
+          padding: "5px 9px", borderRadius: 8, border: "none", fontSize: 11, fontWeight: 700,
+          cursor: "pointer", transition: "all 0.15s",
+          background: mode === m.key ? "var(--accent)" : "transparent",
+          color: mode === m.key ? "#fff" : "var(--text-dim)",
+        }}>{m.label}</button>
+      ))}
+    </div>
+  );
+}
+
+// Grammar note (expandable)
+function GrammarNote({ noteKey }) {
+  const [expanded, setExpanded] = useState(false);
+  const note = GRAMMAR_NOTES[noteKey];
+  if (!note) return null;
+  return (
+    <div style={{ background: "#1a1a2e", borderRadius: 14, marginBottom: 16, border: "1px solid #2a2a4a", overflow: "hidden" }}>
+      <button onClick={() => setExpanded(!expanded)} style={{
+        width: "100%", padding: "14px 18px", background: "none", border: "none",
+        cursor: "pointer", display: "flex", alignItems: "center", gap: 10, color: "var(--text)", textAlign: "left",
+      }}>
+        <span style={{ fontSize: 18 }}>📖</span>
+        <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: "#a78bfa" }}>{note.title}</span>
+        <span style={{ fontSize: 14, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+      </button>
+      {expanded && (
+        <div style={{ padding: "0 18px 18px", animation: "fadeIn 0.2s ease" }}>
+          <p style={{ margin: "0 0 12px", lineHeight: 1.7, whiteSpace: "pre-line", color: "var(--text)", fontSize: 14 }}>{note.text}</p>
+          <div style={{ padding: "10px 14px", borderRadius: 10, background: "#a78bfa18", border: "1px solid #a78bfa30" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#a78bfa" }}>💡 Tip: </span>
+            <span style={{ fontSize: 13, color: "var(--text)" }}>{note.tip}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Vocab Review (Spaced Repetition)
+function VocabReview({ progress, onComplete }) {
+  const [words] = useState(() => getVocabForReview(progress));
+  const [current, setCurrent] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [results, setResults] = useState([]);
+  const [finished, setFinished] = useState(false);
+  if (words.length === 0) return (
+    <div style={{ textAlign: "center", padding: 40 }}>
+      <div style={{ fontSize: 60, marginBottom: 16 }}>✅</div>
+      <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>All caught up!</h2>
+      <p style={{ color: "var(--text-dim)" }}>Complete more lessons to unlock new vocabulary.</p>
+    </div>
+  );
+  const handleAnswer = (correct) => {
+    const w = words[current]; const newResults = [...results, { id: w.id, correct }];
+    setResults(newResults);
+    if (current < words.length - 1) { setCurrent(c => c + 1); setShowAnswer(false); }
+    else { setFinished(true); onComplete(newResults, newResults.filter(r => r.correct).length); }
+  };
+  if (finished) {
+    const totalCorrect = results.filter(r => r.correct).length;
+    return (
+      <div style={{ textAlign: "center", padding: 40 }}>
+        <div style={{ fontSize: 60, marginBottom: 16 }}>🧠</div>
+        <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Review Complete!</h2>
+        <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{totalCorrect}/{words.length} recalled correctly</p>
+        <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{totalCorrect * 5} XP earned!</p>
+        <p style={{ color: "var(--text-dim)", fontSize: 13, marginTop: 12 }}>Words you got wrong will appear sooner next time.</p>
+      </div>
+    );
+  }
+  const w = words[current];
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{current + 1}/{words.length}</span>
+        <div style={{ flex: 1, height: 4, background: "var(--border)", borderRadius: 2 }}>
+          <div style={{ width: `${((current + 1) / words.length) * 100}%`, height: "100%", background: "#a78bfa", borderRadius: 2 }} />
+        </div>
+        <span style={{ fontSize: 11, color: "var(--text-dim)", padding: "3px 8px", background: "var(--card)", borderRadius: 6 }}>
+          {w.srs.correct > 0 ? `${w.srs.correct}✓ ${w.srs.wrong}✗` : "New"}
+        </span>
+      </div>
+      <div style={{ background: "var(--card)", borderRadius: 16, padding: 40, textAlign: "center", marginBottom: 20, minHeight: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ fontSize: 14, color: "var(--text-dim)", marginBottom: 8 }}>What is the Japanese for:</div>
+        <div style={{ fontSize: 32, fontWeight: 700, color: "var(--accent)", marginBottom: 20 }}>{w.en}</div>
+        {!showAnswer ? (
+          <button onClick={() => setShowAnswer(true)} style={{ ...btnPrimary, background: "#a78bfa", padding: "14px 32px", fontSize: 16 }}>Show Answer</button>
+        ) : (
+          <div style={{ animation: "fadeIn 0.2s ease" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", marginBottom: 4 }}>
+              <span style={{ fontSize: 28, fontWeight: 700, color: "var(--text)" }}>{w.r}</span>
+              <AudioBtn text={w.jp} size={32} />
+            </div>
+            <div style={{ fontSize: 16, color: "var(--text-dim)" }}>{w.jp}</div>
+          </div>
+        )}
+      </div>
+      {showAnswer && (
+        <div style={{ display: "flex", gap: 12 }}>
+          <button onClick={() => handleAnswer(false)} style={{ flex: 1, padding: 16, borderRadius: 12, border: "2px solid #ef4444", background: "#ef444418", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#ef4444" }}>✗ Wrong</button>
+          <button onClick={() => handleAnswer(true)} style={{ flex: 1, padding: 16, borderRadius: 12, border: "2px solid #22c55e", background: "#22c55e18", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#22c55e" }}>✓ Right</button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Animated block component
 function Block({ label, jp, romaji, animate = false, index = 0 }) {
@@ -661,7 +1111,10 @@ function Block({ label, jp, romaji, animate = false, index = 0 }) {
       position: "relative",
     }}>
       <span style={{ fontSize: 10, fontWeight: 700, color: color, textTransform: "uppercase", letterSpacing: 1 }}>{label}</span>
-      <span style={{ fontSize: 20, fontWeight: 600, color: "var(--text)" }}>{romaji || jp}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
+        <span style={{ fontSize: 20, fontWeight: 600, color: "var(--text)" }}>{romaji || jp}</span>
+        {jp && <AudioBtn text={jp} size={20} />}
+      </div>
       {romaji && <span style={{ fontSize: 11, color: "var(--text-dim)", fontStyle: "italic" }}>{jp}</span>}
     </div>
   );
@@ -683,19 +1136,22 @@ function LessonContent({ lesson, onComplete, progress }) {
             <p style={{ margin: 0, lineHeight: 1.7, whiteSpace: "pre-line", color: "var(--text)" }}>{item.text}</p>
           </div>
         );
+      case "grammar-note":
+        return <GrammarNote noteKey={item.noteKey} />;
       case "chart":
         return (
           <div style={{ background: "var(--card)", borderRadius: 16, padding: 24, marginBottom: 16 }}>
             <h3 style={{ margin: "0 0 16px", color: "var(--text)" }}>{item.title}</h3>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
               {item.data.map((ch, i) => (
-                <div key={i} style={{
+                <div key={i} onClick={() => speakJapanese(ch.h)} style={{
                   width: 72, height: 80, display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center", background: "var(--card-alt)",
-                  borderRadius: 12, border: "2px solid var(--border)",
+                  borderRadius: 12, border: "2px solid var(--border)", cursor: "pointer",
                 }}>
                   <span style={{ fontSize: 28, fontWeight: 700, color: "var(--accent)" }}>{ch.r}</span>
                   <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{ch.h}</span>
+                  <span style={{ fontSize: 9, opacity: 0.4 }}>🔊</span>
                 </div>
               ))}
             </div>
@@ -764,9 +1220,9 @@ function LessonContent({ lesson, onComplete, progress }) {
             <h3 style={{ margin: "0 0 16px", color: "var(--text)" }}>10 Essential Verbs</h3>
             <div style={{ display: "grid", gap: 8 }}>
               {item.data.slice(0, 5).map((v, i) => (
-                <div key={i} style={{
+                <div key={i} onClick={() => speakJapanese(v.masu)} style={{
                   display: "flex", alignItems: "center", gap: 12, padding: "10px 14px",
-                  background: "var(--card-alt)", borderRadius: 10, flexWrap: "wrap",
+                  background: "var(--card-alt)", borderRadius: 10, flexWrap: "wrap", cursor: "pointer",
                 }}>
                   <span style={{ fontSize: 13, color: "var(--text-dim)", minWidth: 50 }}>{v.en}</span>
                   <span style={{ fontSize: 18, fontWeight: 600, color: "var(--accent)", minWidth: 80 }}>{v.masu}</span>
@@ -777,9 +1233,9 @@ function LessonContent({ lesson, onComplete, progress }) {
             </div>
             <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
               {item.data.slice(5).map((v, i) => (
-                <div key={i} style={{
+                <div key={i} onClick={() => speakJapanese(v.masu)} style={{
                   display: "flex", alignItems: "center", gap: 12, padding: "10px 14px",
-                  background: "var(--card-alt)", borderRadius: 10, flexWrap: "wrap",
+                  background: "var(--card-alt)", borderRadius: 10, flexWrap: "wrap", cursor: "pointer",
                 }}>
                   <span style={{ fontSize: 13, color: "var(--text-dim)", minWidth: 50 }}>{v.en}</span>
                   <span style={{ fontSize: 18, fontWeight: 600, color: "var(--accent)", minWidth: 80 }}>{v.masu}</span>
@@ -796,9 +1252,9 @@ function LessonContent({ lesson, onComplete, progress }) {
             <h3 style={{ margin: "0 0 16px", color: "var(--text)" }}>Katakana = English in Disguise</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10 }}>
               {item.data.map((w, i) => (
-                <div key={i} style={{
+                <div key={i} onClick={() => speakJapanese(w.k)} style={{
                   padding: "12px", background: "var(--card-alt)", borderRadius: 10,
-                  textAlign: "center", border: "1px solid var(--border)",
+                  textAlign: "center", border: "1px solid var(--border)", cursor: "pointer",
                 }}>
                   <div style={{ fontSize: 18, fontWeight: 700, color: "var(--accent)" }}>{w.en}</div>
                   <div style={{ fontSize: 15, color: "var(--text)", fontWeight: 600 }}>{w.r}</div>
@@ -823,8 +1279,12 @@ function LessonContent({ lesson, onComplete, progress }) {
                     padding: "10px 16px", borderRadius: 14, maxWidth: "85%",
                     background: l.speaker === "You" ? "var(--accent)" + "22" : "var(--card-alt)",
                     border: `1px solid ${l.speaker === "You" ? "var(--accent)" : "var(--border)"}`,
-                  }}>
-                    <div style={{ fontSize: 17, fontWeight: 600, color: "var(--text)" }}>{l.r}</div>
+                    cursor: "pointer",
+                  }} onClick={() => speakJapanese(l.jp)}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <div style={{ fontSize: 17, fontWeight: 600, color: "var(--text)", flex: 1 }}>{l.r}</div>
+                      <span style={{ fontSize: 12, opacity: 0.5 }}>🔊</span>
+                    </div>
                     <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{l.jp}</div>
                     <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic", marginTop: 2 }}>{l.en}</div>
                   </div>
@@ -1351,7 +1811,7 @@ const btnSecondary = {
 export default function JapaneseLearningApp() {
   const [progress, setProgress] = useState(DEFAULT_PROGRESS);
   const [loaded, setLoaded] = useState(false);
-  const [view, setView] = useState("home"); // home, lesson, quiz, minigame
+  const [view, setView] = useState("home"); // home, lesson, quiz, minigame, review
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeQuiz, setActiveQuiz] = useState(null);
   const [activeMinigame, setActiveMinigame] = useState(null);
@@ -1444,6 +1904,18 @@ export default function JapaneseLearningApp() {
     }));
   };
 
+  const completeReview = (results, totalCorrect) => {
+    updateProgress(p => {
+      const newSRS = { ...(p.srsData || {}) };
+      results.forEach(r => { newSRS[r.id] = updateSRS(newSRS, r.id, r.correct); });
+      return { ...p, srsData: newSRS, totalXP: p.totalXP + totalCorrect * 5, lastActive: new Date().toISOString() };
+    });
+  };
+
+  const changeDisplayMode = (mode) => {
+    updateProgress(p => ({ ...p, displayMode: mode }));
+  };
+
   const resetProgress = async () => {
     if (!window.confirm("Reset all progress? This cannot be undone.")) return;
     const fresh = { ...DEFAULT_PROGRESS };
@@ -1464,7 +1936,8 @@ export default function JapaneseLearningApp() {
 
   const phases = [
     { name: "Foundation", weeks: "1–4", lessons: LESSONS.filter(l => l.phase === 1) },
-    { name: "Expanding", weeks: "5–8+", lessons: LESSONS.filter(l => l.phase === 2) },
+    { name: "Expanding", weeks: "5–8", lessons: LESSONS.filter(l => l.phase === 2) },
+    { name: "Real World", weeks: "9–12+", lessons: LESSONS.filter(l => l.phase === 3) },
   ];
 
   const minigames = [
@@ -1495,6 +1968,7 @@ export default function JapaneseLearningApp() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         * { box-sizing: border-box; }
         button { font-family: inherit; }
         button:hover { filter: brightness(1.1); }
@@ -1525,7 +1999,8 @@ export default function JapaneseLearningApp() {
             <p style={{ margin: 0, fontSize: 12, color: "var(--text-dim)" }}>Block-based Japanese for trilingual minds</p>
           </div>
         )}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {view === "home" && <DisplayModeToggle mode={progress.displayMode || "romaji"} onChange={changeDisplayMode} />}
           {saveStatus && (
             <span style={{
               fontSize: 11, fontWeight: 600, padding: "4px 8px", borderRadius: 8,
@@ -1572,8 +2047,29 @@ export default function JapaneseLearningApp() {
                 <span style={{ fontSize: 22, fontWeight: 800, color: "#22c55e" }}>{Object.keys(progress.quizScores).length}</span>
                 <span style={{ fontSize: 12, color: "var(--text-dim)", marginLeft: 4 }}>quizzes passed</span>
               </div>
+              <div>
+                <span style={{ fontSize: 22, fontWeight: 800, color: "#a78bfa" }}>{ALL_VOCAB.filter(v => progress.completedLessons.includes(v.lesson)).length}</span>
+                <span style={{ fontSize: 12, color: "var(--text-dim)", marginLeft: 4 }}>words</span>
+              </div>
             </div>
           </div>
+
+          {/* Vocab Review (SRS) */}
+          {progress.completedLessons.length > 0 && (
+            <button onClick={() => { setSessionKey(k => k + 1); setView("review"); }} style={{
+              width: "100%", padding: "18px 20px", borderRadius: 14,
+              background: "linear-gradient(135deg, #a78bfa20, #8b5cf620)",
+              border: "1px solid #a78bfa40", cursor: "pointer", textAlign: "left",
+              display: "flex", alignItems: "center", gap: 14, marginBottom: 24,
+            }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, background: "#a78bfa22" }}>🧠</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)" }}>Vocab Review</div>
+                <div style={{ fontSize: 12, color: "#a78bfa" }}>Spaced repetition — words you struggle with appear more often</div>
+              </div>
+              <span style={{ fontSize: 20, animation: "pulse 2s ease infinite" }}>→</span>
+            </button>
+          )}
 
           {/* Lessons by phase */}
           {phases.map((phase, pi) => (
@@ -1769,6 +2265,25 @@ export default function JapaneseLearningApp() {
           {activeMinigame === "hiragana" && (
             <HiraganaMatch key={"hiragana-" + sessionKey} onComplete={(s) => completeMinigame("hiragana", s)} />
           )}
+          <div style={{ textAlign: "center", marginTop: 20 }}>
+            <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
+          </div>
+        </div>
+      )}
+
+      {/* VOCAB REVIEW VIEW */}
+      {view === "review" && (
+        <div style={{ paddingTop: 16, animation: "fadeIn 0.3s ease" }}>
+          <div style={{ marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 1 }}>Spaced Repetition</span>
+            <h2 style={{ margin: "4px 0", fontSize: 22, fontWeight: 800 }}>🧠 Vocab Review</h2>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-dim)" }}>Words you struggle with appear more often</p>
+          </div>
+          <VocabReview
+            key={"review-" + sessionKey}
+            progress={progress}
+            onComplete={completeReview}
+          />
           <div style={{ textAlign: "center", marginTop: 20 }}>
             <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
           </div>
