@@ -929,6 +929,118 @@ const PARTICLE_FILL_SENTENCES = [
   { before: "tomodachi", after: "ikimasu", particle: "to", hint: "I go with a friend" },
 ];
 
+// SENTENCE SCRAMBLE DATA — individual words, no labels
+const SCRAMBLE_SENTENCES = [
+  { en: "I eat sushi every day.", words: ["watashi", "wa", "mainichi", "sushi", "o", "tabemasu"] },
+  { en: "Yesterday I drank coffee at a café.", words: ["kinou", "watashi", "wa", "kafe", "de", "koohii", "o", "nomimashita"] },
+  { en: "My friend goes to school.", words: ["watashi", "no", "tomodachi", "wa", "gakkou", "ni", "ikimasu"] },
+  { en: "I don't drink beer.", words: ["watashi", "wa", "biiru", "o", "nomimasen"] },
+  { en: "Do you eat ramen?", words: ["raamen", "o", "tabemasu", "ka"] },
+  { en: "Tomorrow I want to go to Tokyo.", words: ["ashita", "toukyou", "ni", "ikitai", "desu"] },
+  { en: "I bought bread at the shop yesterday.", words: ["kinou", "mise", "de", "pan", "o", "kaimashita"] },
+  { en: "Because it's delicious, I eat it every day.", words: ["oishii", "desu", "kara", "mainichi", "tabemasu"] },
+  { en: "Please write your name here.", words: ["koko", "ni", "namae", "o", "kaite", "kudasai"] },
+  { en: "I woke up and drank coffee.", words: ["okite", "koohii", "o", "nomimashita"] },
+];
+
+// CONVERSATION SIMULATOR DATA
+const CONVO_SCENARIOS = [
+  {
+    title: "At a Restaurant",
+    icon: "🍜",
+    steps: [
+      { speaker: "Staff", line: "irasshaimase! nanmei-sama desu ka?", en: "Welcome! How many people?",
+        options: ["futari desu", "genki desu", "sumimasen"], correct: 0,
+        responses: ["Please follow me!", "Um... how many people?", "Yes, can I help you?"] },
+      { speaker: "Staff", line: "gochuumon wa?", en: "What would you like to order?",
+        options: ["raamen o onegaishimasu", "gakkou ni ikimasu", "watashi wa tanaka desu"], correct: 0,
+        responses: ["One ramen, coming up!", "This is a restaurant...", "Nice to meet you, but what do you want to eat?"] },
+      { speaker: "Staff", line: "nani o nomimasu ka?", en: "What will you drink?",
+        options: ["biiru o kudasai", "hon o yomimasu", "ashita ikimasu"], correct: 0,
+        responses: ["One beer, certainly!", "You want to read a book here?", "Come back tomorrow?"] },
+      { speaker: "Staff", line: "ijou de yoroshii desu ka?", en: "Will that be all?",
+        options: ["hai, onegaishimasu", "iie, mizu mo kudasai", "tabemasu"], correct: 1,
+        responses: ["I'll bring it right out.", "Water too, of course!", "...yes, you're here to eat."] },
+    ]
+  },
+  {
+    title: "Meeting Someone New",
+    icon: "🤝",
+    steps: [
+      { speaker: "Person", line: "hajimemashite. tanaka desu.", en: "Nice to meet you. I'm Tanaka.",
+        options: ["hajimemashite. watashi wa ___ desu.", "sayounara", "nani o tabemasu ka"], correct: 0,
+        responses: ["Nice to meet you too!", "Goodbye already?!", "We just met and you want to eat?"] },
+      { speaker: "Person", line: "dochira kara desu ka?", en: "Where are you from?",
+        options: ["igirisu kara kimashita", "koohii o nomimasu", "gakkou ni ikimasu"], correct: 0,
+        responses: ["Oh, England! Wonderful!", "Coffee? I asked where you're from.", "School? I asked where you're from."] },
+      { speaker: "Person", line: "nihongo ga jouzu desu ne!", en: "Your Japanese is good!",
+        options: ["arigatou gozaimasu! mada mada desu.", "tabemasu", "massugu itte kudasai"], correct: 0,
+        responses: ["So humble! Keep it up!", "...eat?", "Go straight? We're having a conversation!"] },
+    ]
+  },
+  {
+    title: "Asking Directions",
+    icon: "🗺️",
+    steps: [
+      { speaker: "You", line: "(You need to find the station)", en: "How do you get someone's attention?",
+        options: ["sumimasen", "itadakimasu", "sayounara"], correct: 0,
+        responses: ["Yes, how can I help?", "That's for before eating...", "Goodbye? But you need directions!"] },
+      { speaker: "Person", line: "hai, nan desu ka?", en: "Yes, what is it?",
+        options: ["eki wa doko desu ka", "sushi o tabemasu", "watashi wa genki desu"], correct: 0,
+        responses: ["The station? Let me think...", "There's a restaurant down the street.", "Good for you, but did you need something?"] },
+      { speaker: "Person", line: "massugu itte, migi ni magatte kudasai.", en: "Go straight and turn right.",
+        options: ["arigatou gozaimasu!", "mou ichido onegaishimasu", "iie, kekkou desu"], correct: 0,
+        responses: ["You're welcome! Good luck!", "Straight, then right.", "You don't want to know? But you asked!"] },
+    ]
+  },
+];
+
+// SPEED CONJUGATION DATA
+const CONJUGATION_DRILLS = [
+  { verb: "taberu", en: "eat", target: "polite present", answer: "tabemasu" },
+  { verb: "taberu", en: "eat", target: "polite past", answer: "tabemashita" },
+  { verb: "taberu", en: "eat", target: "polite negative", answer: "tabemasen" },
+  { verb: "taberu", en: "eat", target: "te-form", answer: "tabete" },
+  { verb: "taberu", en: "eat", target: "want to (-tai)", answer: "tabetai" },
+  { verb: "taberu", en: "eat", target: "casual past", answer: "tabeta" },
+  { verb: "nomu", en: "drink", target: "polite present", answer: "nomimasu" },
+  { verb: "nomu", en: "drink", target: "polite past", answer: "nomimashita" },
+  { verb: "nomu", en: "drink", target: "polite negative", answer: "nomimasen" },
+  { verb: "nomu", en: "drink", target: "casual past", answer: "nonda" },
+  { verb: "iku", en: "go", target: "polite present", answer: "ikimasu" },
+  { verb: "iku", en: "go", target: "polite past", answer: "ikimashita" },
+  { verb: "iku", en: "go", target: "polite negative", answer: "ikimasen" },
+  { verb: "iku", en: "go", target: "want to (-tai)", answer: "ikitai" },
+  { verb: "iku", en: "go", target: "casual past", answer: "itta" },
+  { verb: "iku", en: "go", target: "casual negative", answer: "ikanai" },
+  { verb: "miru", en: "see", target: "polite present", answer: "mimasu" },
+  { verb: "miru", en: "see", target: "te-form", answer: "mite" },
+  { verb: "kau", en: "buy", target: "polite past", answer: "kaimashita" },
+  { verb: "kau", en: "buy", target: "te-form", answer: "katte" },
+  { verb: "kaku", en: "write", target: "polite present", answer: "kakimasu" },
+  { verb: "kaku", en: "write", target: "te-form", answer: "kaite" },
+  { verb: "hanasu", en: "speak", target: "polite present", answer: "hanashimasu" },
+  { verb: "hanasu", en: "speak", target: "te-form", answer: "hanashite" },
+  { verb: "suru", en: "do", target: "polite present", answer: "shimasu" },
+  { verb: "suru", en: "do", target: "casual past", answer: "shita" },
+  { verb: "kuru", en: "come", target: "polite present", answer: "kimasu" },
+  { verb: "kuru", en: "come", target: "casual past", answer: "kita" },
+  { verb: "yomu", en: "read", target: "polite past", answer: "yomimashita" },
+  { verb: "yomu", en: "read", target: "casual past", answer: "yonda" },
+];
+
+// PARTICLE SNIPER DATA — full sentences with multiple blanks
+const PARTICLE_SNIPER_SENTENCES = [
+  { words: ["watashi", "___", "kafe", "___", "koohii", "___", "nomimasu"], particles: ["wa", "de", "o"], en: "I drink coffee at a café." },
+  { words: ["watashi", "___", "tomodachi", "___", "gakkou", "___", "ikimasu"], particles: ["no", "wa", "ni"], en: "My friend goes to school." },
+  { words: ["kinou", "resutoran", "___", "sushi", "___", "tabemashita"], particles: ["de", "o"], en: "Yesterday I ate sushi at a restaurant." },
+  { words: ["watashi", "___", "mainichi", "hon", "___", "yomimasu"], particles: ["wa", "o"], en: "I read a book every day." },
+  { words: ["watashi", "___", "ashita", "toukyou", "___", "ikitai", "desu"], particles: ["wa", "ni"], en: "I want to go to Tokyo tomorrow." },
+  { words: ["tomodachi", "___", "ie", "___", "terebi", "___", "mimashita"], particles: ["wa", "de", "o"], en: "My friend watched TV at home." },
+  { words: ["tanaka-san", "___", "densha", "___", "kaisha", "___", "ikimasu"], particles: ["wa", "de", "ni"], en: "Tanaka goes to work by train." },
+  { words: ["kono", "resutoran", "___", "koohii", "___", "oishii", "desu"], particles: ["no", "wa"], en: "This restaurant's coffee is delicious." },
+];
+
 // ============================================================
 // STORAGE HELPERS
 // ============================================================
@@ -1790,6 +1902,426 @@ function HiraganaMatch({ onComplete }) {
 }
 
 
+// Sentence Scramble Minigame
+function SentenceScramble({ onComplete }) {
+  const [level, setLevel] = useState(0);
+  const [placed, setPlaced] = useState([]);
+  const [available, setAvailable] = useState([]);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const items = useState(() => [...SCRAMBLE_SENTENCES].sort(() => Math.random() - 0.5).slice(0, 7))[0];
+  const current = items[level];
+
+  useEffect(() => {
+    if (current) {
+      const shuffled = current.words.map((w, i) => ({ word: w, id: i + Math.random() }));
+      setAvailable(shuffled.sort(() => Math.random() - 0.5));
+      setPlaced([]);
+      setShowResult(false);
+    }
+  }, [level]);
+
+  const add = (item) => { if (showResult) return; setPlaced(p => [...p, item]); setAvailable(a => a.filter(x => x.id !== item.id)); };
+  const remove = (item) => { if (showResult) return; setAvailable(a => [...a, item]); setPlaced(p => p.filter(x => x.id !== item.id)); };
+
+  const check = () => {
+    const correct = placed.map(p => p.word).join(" ") === current.words.join(" ");
+    setIsCorrect(correct); setShowResult(true);
+    if (correct) setScore(s => s + 1);
+  };
+
+  const next = () => {
+    if (level < items.length - 1) setLevel(l => l + 1);
+    else { setFinished(true); onComplete(score); }
+  };
+
+  if (finished) return (
+    <div style={{ textAlign: "center", padding: 40 }}>
+      <div style={{ fontSize: 60, marginBottom: 16 }}>🔀</div>
+      <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Scramble Complete!</h2>
+      <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score}/{items.length} sentences correct</p>
+      <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{score * 20} XP earned!</p>
+    </div>
+  );
+  if (!current) return null;
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{level + 1}/{items.length}</span>
+        <div style={{ flex: 1 }} />
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>🏆 {score}</span>
+      </div>
+      <div style={{ background: "var(--card-alt)", borderRadius: 12, padding: 16, marginBottom: 16, textAlign: "center" }}>
+        <span style={{ fontSize: 13, color: "var(--text-dim)" }}>Unscramble this sentence:</span>
+        <p style={{ fontSize: 18, fontWeight: 600, color: "var(--text)", margin: "8px 0 0" }}>"{current.en}"</p>
+      </div>
+      <div style={{
+        minHeight: 60, background: "var(--card)", borderRadius: 12, padding: 12,
+        border: "2px dashed var(--border)", marginBottom: 16, display: "flex",
+        flexWrap: "wrap", gap: 6, alignItems: "center",
+        justifyContent: placed.length === 0 ? "center" : "flex-start",
+      }}>
+        {placed.length === 0 ? (
+          <span style={{ color: "var(--text-dim)", fontSize: 14 }}>Tap words in the right order →</span>
+        ) : placed.map((b) => (
+          <button key={b.id} onClick={() => remove(b)} style={{
+            padding: "8px 14px", borderRadius: 10, border: "2px solid var(--accent)",
+            background: "var(--accent)" + "18", cursor: "pointer", fontSize: 17, color: "var(--text)", fontWeight: 600,
+          }}>{b.word}</button>
+        ))}
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
+        {available.map(b => (
+          <button key={b.id} onClick={() => add(b)} style={{
+            padding: "10px 16px", borderRadius: 10, border: "2px solid var(--border)",
+            background: "var(--card-alt)", cursor: "pointer", fontSize: 17, color: "var(--text)", fontWeight: 500,
+          }}>{b.word}</button>
+        ))}
+      </div>
+      {showResult && (
+        <div style={{
+          padding: 16, borderRadius: 12, marginBottom: 16, textAlign: "center",
+          background: isCorrect ? "#22c55e18" : "#ef444418", border: `2px solid ${isCorrect ? "#22c55e" : "#ef4444"}`,
+        }}>
+          <p style={{ fontSize: 16, fontWeight: 700, color: isCorrect ? "#22c55e" : "#ef4444", margin: 0 }}>
+            {isCorrect ? "✓ Perfect!" : "✗ Not quite!"}
+          </p>
+          {!isCorrect && <p style={{ fontSize: 14, color: "var(--text-dim)", margin: "8px 0 0" }}>Correct: {current.words.join(" ")}</p>}
+        </div>
+      )}
+      <div style={{ display: "flex", gap: 10 }}>
+        {!showResult ? (
+          <button onClick={check} disabled={placed.length === 0} style={{ ...btnPrimary, opacity: placed.length === 0 ? 0.4 : 1, flex: 1 }}>Check Answer</button>
+        ) : (
+          <button onClick={next} style={{ ...btnPrimary, flex: 1 }}>{level < items.length - 1 ? "Next →" : "See Results"}</button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Conversation Simulator Minigame
+function ConvoSim({ onComplete }) {
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [stepIdx, setStepIdx] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+  const [chatLog, setChatLog] = useState([]);
+  const [finished, setFinished] = useState(false);
+  const scenarios = CONVO_SCENARIOS;
+  const scenario = scenarios[scenarioIdx];
+  const step = scenario?.steps[stepIdx];
+
+  const handleSelect = (idx) => {
+    if (showResult) return;
+    setSelected(idx);
+    setShowResult(true);
+    const correct = idx === step.correct;
+    if (correct) setScore(s => s + 1);
+    setChatLog(log => [
+      ...log,
+      { speaker: step.speaker !== "You" ? step.speaker : step.speaker, text: step.line, en: step.en, isNpc: step.speaker !== "You" },
+      { speaker: "You", text: step.options[idx], isNpc: false, correct },
+      { speaker: step.speaker !== "You" ? step.speaker : "Response", text: step.responses[idx], isNpc: true, isResponse: true },
+    ]);
+  };
+
+  const next = () => {
+    if (stepIdx < scenario.steps.length - 1) {
+      setStepIdx(s => s + 1); setSelected(null); setShowResult(false);
+    } else if (scenarioIdx < scenarios.length - 1) {
+      setScenarioIdx(s => s + 1); setStepIdx(0); setSelected(null); setShowResult(false); setChatLog([]);
+    } else {
+      setFinished(true); onComplete(score);
+    }
+  };
+
+  if (finished) return (
+    <div style={{ textAlign: "center", padding: 40 }}>
+      <div style={{ fontSize: 60, marginBottom: 16 }}>💬</div>
+      <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Conversations Complete!</h2>
+      <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score} correct responses across {scenarios.length} scenarios</p>
+      <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{score * 15} XP earned!</p>
+    </div>
+  );
+
+  if (!step) return null;
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text)" }}>{scenario.icon} {scenario.title}</span>
+        <div style={{ flex: 1 }} />
+        <span style={{ fontSize: 12, color: "var(--text-dim)" }}>Scenario {scenarioIdx + 1}/{scenarios.length}</span>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)", marginLeft: 8 }}>🏆 {score}</span>
+      </div>
+
+      {/* Chat log */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16, maxHeight: 200, overflowY: "auto" }}>
+        {chatLog.map((msg, i) => (
+          <div key={i} style={{
+            display: "flex", flexDirection: "column",
+            alignItems: msg.isNpc ? "flex-start" : "flex-end",
+          }}>
+            <div style={{
+              padding: "8px 14px", borderRadius: 12, maxWidth: "80%", fontSize: 14,
+              background: msg.isResponse ? "var(--card-alt)" : msg.isNpc ? "var(--card)" : (msg.correct !== false ? "var(--accent)" + "22" : "#ef444422"),
+              border: `1px solid ${msg.isResponse ? "var(--border)" : msg.isNpc ? "var(--border)" : (msg.correct !== false ? "var(--accent)" : "#ef4444")}`,
+              color: "var(--text)", fontStyle: msg.isResponse ? "italic" : "normal",
+            }}>
+              {msg.text}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Current prompt */}
+      <div style={{ background: "var(--card)", borderRadius: 12, padding: 16, marginBottom: 16 }}>
+        <div style={{ fontSize: 12, color: "var(--text-dim)", marginBottom: 4 }}>{step.speaker === "You" ? "Situation:" : step.speaker + " says:"}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ fontSize: 18, fontWeight: 600, color: "var(--text)", flex: 1 }}>{step.line}</div>
+          {step.speaker !== "You" && <span onClick={() => speakJapanese(step.line.replace(/[()]/g, ""))} style={{ cursor: "pointer", fontSize: 16, opacity: 0.6 }}>🔊</span>}
+        </div>
+        <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic", marginTop: 4 }}>{step.en}</div>
+      </div>
+
+      {/* Options */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+        {step.options.map((opt, i) => {
+          let bg = "var(--card-alt)"; let border = "var(--border)";
+          if (showResult) {
+            if (i === step.correct) { bg = "#22c55e22"; border = "#22c55e"; }
+            else if (i === selected && i !== step.correct) { bg = "#ef444422"; border = "#ef4444"; }
+          }
+          return (
+            <button key={i} onClick={() => handleSelect(i)} style={{
+              padding: "14px 18px", borderRadius: 12, border: `2px solid ${border}`,
+              background: bg, cursor: showResult ? "default" : "pointer", textAlign: "left",
+              fontSize: 16, color: "var(--text)", fontWeight: 600,
+            }}>{opt}</button>
+          );
+        })}
+      </div>
+
+      {showResult && (
+        <div style={{ textAlign: "center" }}>
+          <button onClick={next} style={btnPrimary}>{
+            stepIdx < scenario.steps.length - 1 ? "Next Line →" :
+            scenarioIdx < scenarios.length - 1 ? "Next Scenario →" : "See Results"
+          }</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Speed Conjugation Minigame
+function SpeedConjugation({ onComplete }) {
+  const [drills] = useState(() => [...CONJUGATION_DRILLS].sort(() => Math.random() - 0.5).slice(0, 10));
+  const [current, setCurrent] = useState(0);
+  const [input, setInput] = useState("");
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const [startTime] = useState(Date.now());
+  const inputRef = useRef(null);
+
+  useEffect(() => { if (inputRef.current && !finished) inputRef.current.focus(); }, [current, finished]);
+
+  const check = () => {
+    const correct = input.trim().toLowerCase() === drills[current].answer;
+    setShowResult(true);
+    if (correct) setScore(s => s + 1);
+    setTimeout(() => {
+      if (current < drills.length - 1) { setCurrent(c => c + 1); setInput(""); setShowResult(false); }
+      else { setFinished(true); onComplete(score + (correct ? 1 : 0)); }
+    }, 1500);
+  };
+
+  if (finished) {
+    const time = Math.round((Date.now() - startTime) / 1000);
+    return (
+      <div style={{ textAlign: "center", padding: 40 }}>
+        <div style={{ fontSize: 60, marginBottom: 16 }}>⚔️</div>
+        <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Speed Conjugation Complete!</h2>
+        <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score}/{drills.length} correct in {time}s</p>
+        <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{score * 12} XP earned!</p>
+      </div>
+    );
+  }
+
+  const d = drills[current];
+  const isCorrect = showResult && input.trim().toLowerCase() === d.answer;
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{current + 1}/{drills.length}</span>
+        <div style={{ flex: 1, height: 4, background: "var(--border)", borderRadius: 2 }}>
+          <div style={{ width: `${((current + 1) / drills.length) * 100}%`, height: "100%", background: "var(--accent)", borderRadius: 2 }} />
+        </div>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>🏆 {score}</span>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ fontSize: 14, color: "var(--text-dim)", marginBottom: 8 }}>Conjugate:</div>
+        <div style={{ fontSize: 32, fontWeight: 700, color: "var(--accent)", marginBottom: 4 }}>{d.verb}</div>
+        <div style={{ fontSize: 14, color: "var(--text-dim)" }}>({d.en})</div>
+        <div style={{
+          display: "inline-block", marginTop: 12, padding: "8px 20px", borderRadius: 20,
+          background: "#f59e0b22", border: "1px solid #f59e0b40", color: "#f59e0b", fontSize: 15, fontWeight: 700,
+        }}>→ {d.target}</div>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
+        <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter" && input) check(); }}
+          style={{
+            padding: "12px 20px", fontSize: 20, borderRadius: 12,
+            border: `2px solid ${showResult ? (isCorrect ? "#22c55e" : "#ef4444") : "var(--border)"}`,
+            background: "var(--card)", color: "var(--text)", textAlign: "center", width: 220, outline: "none",
+          }}
+          placeholder="type answer..."
+          disabled={showResult}
+        />
+        <button onClick={check} disabled={!input || showResult} style={{ ...btnPrimary, opacity: (!input || showResult) ? 0.4 : 1 }}>Go</button>
+      </div>
+
+      {showResult && !isCorrect && <p style={{ color: "#ef4444", fontSize: 14, marginTop: 12 }}>It's <strong>{d.answer}</strong></p>}
+      {showResult && isCorrect && <p style={{ color: "#22c55e", fontSize: 14, marginTop: 12 }}>✓ Correct!</p>}
+    </div>
+  );
+}
+
+// Particle Sniper Minigame
+function ParticleSniper({ onComplete }) {
+  const [level, setLevel] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [currentBlank, setCurrentBlank] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const items = useState(() => [...PARTICLE_SNIPER_SENTENCES].sort(() => Math.random() - 0.5).slice(0, 6))[0];
+  const current = items[level];
+  const allParticles = ["wa", "o", "no", "ni", "de", "to", "ka", "mo"];
+
+  useEffect(() => { setAnswers([]); setCurrentBlank(0); setShowResult(false); }, [level]);
+
+  const handleSelect = (p) => {
+    if (showResult) return;
+    const newAnswers = [...answers, p];
+    setAnswers(newAnswers);
+    if (newAnswers.length >= current.particles.length) {
+      setShowResult(true);
+      const correct = newAnswers.every((a, i) => a === current.particles[i]);
+      if (correct) setScore(s => s + 1);
+    } else {
+      setCurrentBlank(b => b + 1);
+    }
+  };
+
+  const isAllCorrect = showResult && answers.every((a, i) => a === current.particles[i]);
+
+  const next = () => {
+    if (level < items.length - 1) setLevel(l => l + 1);
+    else { setFinished(true); onComplete(score + (isAllCorrect ? 0 : 0)); }
+  };
+
+  if (finished) return (
+    <div style={{ textAlign: "center", padding: 40 }}>
+      <div style={{ fontSize: 60, marginBottom: 16 }}>🎯</div>
+      <h2 style={{ color: "var(--text)", margin: "0 0 8px" }}>Particle Sniper Complete!</h2>
+      <p style={{ color: "var(--text-dim)", fontSize: 18 }}>{score}/{items.length} sentences correct</p>
+      <p style={{ color: "#22c55e", fontWeight: 600, marginTop: 8 }}>+{score * 18} XP earned!</p>
+    </div>
+  );
+  if (!current) return null;
+
+  // Build display with blanks filled
+  let blankIdx = 0;
+  const display = current.words.map((w, i) => {
+    if (w === "___") {
+      const thisBlank = blankIdx;
+      blankIdx++;
+      const filled = answers[thisBlank];
+      const isActive = thisBlank === currentBlank && !showResult;
+      const isCorrectBlank = showResult && filled === current.particles[thisBlank];
+      const isWrongBlank = showResult && filled && filled !== current.particles[thisBlank];
+      return (
+        <span key={i} style={{
+          display: "inline-block", minWidth: 40, textAlign: "center", padding: "4px 10px",
+          margin: "0 2px", borderRadius: 8, fontSize: 20, fontWeight: 700,
+          border: `2px ${isActive ? "dashed" : "solid"} ${isCorrectBlank ? "#22c55e" : isWrongBlank ? "#ef4444" : isActive ? "var(--accent)" : "var(--border)"}`,
+          background: isCorrectBlank ? "#22c55e18" : isWrongBlank ? "#ef444418" : isActive ? "var(--accent)" + "12" : "var(--card)",
+          color: isCorrectBlank ? "#22c55e" : isWrongBlank ? "#ef4444" : filled ? "var(--text)" : "var(--accent)",
+        }}>
+          {filled || (isActive ? "?" : "·")}
+        </span>
+      );
+    }
+    return <span key={i} style={{ fontSize: 20, fontWeight: 600, color: "var(--text)", margin: "0 2px" }}>{w}</span>;
+  });
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+        <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700 }}>{level + 1}/{items.length}</span>
+        <div style={{ flex: 1 }} />
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>🏆 {score}</span>
+      </div>
+
+      <div style={{ background: "var(--card-alt)", borderRadius: 12, padding: 16, marginBottom: 16, textAlign: "center" }}>
+        <span style={{ fontSize: 13, color: "var(--text-dim)" }}>Fill ALL the particles:</span>
+        <p style={{ fontSize: 15, color: "var(--text-dim)", margin: "4px 0 0", fontStyle: "italic" }}>{current.en}</p>
+      </div>
+
+      <div style={{
+        display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center",
+        gap: 4, padding: 20, background: "var(--card)", borderRadius: 12, marginBottom: 20, lineHeight: 2.2,
+      }}>
+        {display}
+      </div>
+
+      {!showResult && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 20 }}>
+          {allParticles.map(p => {
+            const pData = PARTICLES_DATA.find(pd => pd.r === p);
+            const color = pData?.color || "var(--accent)";
+            return (
+              <button key={p} onClick={() => handleSelect(p)} style={{
+                minWidth: 52, height: 52, borderRadius: 12, border: `2px solid ${color}60`,
+                background: color + "12", cursor: "pointer", fontSize: 18, fontWeight: 700, color: "var(--text)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>{p}</button>
+            );
+          })}
+        </div>
+      )}
+
+      {showResult && (
+        <div style={{ textAlign: "center" }}>
+          <div style={{
+            padding: 16, borderRadius: 12, marginBottom: 16,
+            background: isAllCorrect ? "#22c55e18" : "#ef444418",
+            border: `2px solid ${isAllCorrect ? "#22c55e" : "#ef4444"}`,
+          }}>
+            <p style={{ fontSize: 16, fontWeight: 700, color: isAllCorrect ? "#22c55e" : "#ef4444", margin: 0 }}>
+              {isAllCorrect ? "✓ All particles correct!" : "✗ Not quite!"}
+            </p>
+            {!isAllCorrect && <p style={{ fontSize: 14, color: "var(--text-dim)", margin: "8px 0 0" }}>Correct: {current.particles.join(", ")}</p>}
+          </div>
+          <button onClick={next} style={btnPrimary}>{level < items.length - 1 ? "Next →" : "See Results"}</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 // ============================================================
 // STYLES
 // ============================================================
@@ -1894,7 +2426,7 @@ export default function JapaneseLearningApp() {
   };
 
   const completeMinigame = (name, score) => {
-    const xpMap = { blocks: 15, particles: 12, hiragana: 8 };
+    const xpMap = { blocks: 15, particles: 12, hiragana: 8, scramble: 20, convo: 15, conjugation: 12, sniper: 18 };
     const xp = score * (xpMap[name] || 10);
     updateProgress(p => ({
       ...p,
@@ -1944,6 +2476,10 @@ export default function JapaneseLearningApp() {
     { id: "blocks", name: "Block Builder", icon: "🏗️", desc: "Arrange blocks to build sentences", minLesson: 1 },
     { id: "particles", name: "Particle Fill", icon: "🧩", desc: "Choose the right particle", minLesson: 2 },
     { id: "hiragana", name: "Vocab Speed", icon: "⚡", desc: "Type the romaji as fast as you can", minLesson: 1 },
+    { id: "scramble", name: "Scramble", icon: "🔀", desc: "Put the words in the right order", minLesson: 3 },
+    { id: "convo", name: "Convo Sim", icon: "💬", desc: "Survive real-world conversations", minLesson: 4 },
+    { id: "conjugation", name: "Conjugation", icon: "⚔️", desc: "Conjugate verbs at speed", minLesson: 3 },
+    { id: "sniper", name: "Particle Sniper", icon: "🎯", desc: "Fill ALL the particles in a sentence", minLesson: 5 },
   ];
 
   return (
@@ -2146,7 +2682,7 @@ export default function JapaneseLearningApp() {
           {/* Minigames */}
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ margin: "0 0 12px", fontSize: 17, fontWeight: 800, color: "var(--text)" }}>🎮 Practice Games</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {minigames.map(mg => {
                 const unlocked = progress.completedLessons.length >= mg.minLesson;
                 return (
@@ -2264,6 +2800,18 @@ export default function JapaneseLearningApp() {
           )}
           {activeMinigame === "hiragana" && (
             <HiraganaMatch key={"hiragana-" + sessionKey} onComplete={(s) => completeMinigame("hiragana", s)} />
+          )}
+          {activeMinigame === "scramble" && (
+            <SentenceScramble key={"scramble-" + sessionKey} onComplete={(s) => completeMinigame("scramble", s)} />
+          )}
+          {activeMinigame === "convo" && (
+            <ConvoSim key={"convo-" + sessionKey} onComplete={(s) => completeMinigame("convo", s)} />
+          )}
+          {activeMinigame === "conjugation" && (
+            <SpeedConjugation key={"conjugation-" + sessionKey} onComplete={(s) => completeMinigame("conjugation", s)} />
+          )}
+          {activeMinigame === "sniper" && (
+            <ParticleSniper key={"sniper-" + sessionKey} onComplete={(s) => completeMinigame("sniper", s)} />
           )}
           <div style={{ textAlign: "center", marginTop: 20 }}>
             <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
