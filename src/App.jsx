@@ -1990,6 +1990,11 @@ function SentenceScramble({ onComplete }) {
             {isCorrect ? "✓ Perfect!" : "✗ Not quite!"}
           </p>
           {!isCorrect && <p style={{ fontSize: 14, color: "var(--text-dim)", margin: "8px 0 0" }}>Correct: {current.words.join(" ")}</p>}
+          <button onClick={() => speakJapanese(current.words.join(" "))} style={{
+            marginTop: 12, padding: "10px 20px", borderRadius: 10, border: "1px solid var(--accent)",
+            background: "var(--accent)" + "18", cursor: "pointer", fontSize: 14, fontWeight: 600,
+            color: "var(--accent)", display: "inline-flex", alignItems: "center", gap: 8,
+          }}>🔊 Listen to sentence</button>
         </div>
       )}
       <div style={{ display: "flex", gap: 10 }}>
