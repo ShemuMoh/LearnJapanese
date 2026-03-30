@@ -2351,6 +2351,195 @@ function ParticleSniper({ onComplete }) {
 }
 
 
+// Quick Reference Carousel
+const QUICK_REF_CARDS = [
+  {
+    title: "🧱 Block Order",
+    color: "#6366f1",
+    content: (
+      <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
+        {["Who wa", "Time", "Place de", "What o", "How", "Verb"].map((b, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <span style={{
+              padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700,
+              background: Object.values(BLOCK_COLORS)[i] + "22",
+              color: Object.values(BLOCK_COLORS)[i],
+              border: `1px solid ${Object.values(BLOCK_COLORS)[i]}40`,
+            }}>{b}</span>
+            {i < 5 && <span style={{ color: "#7a7a8f", fontSize: 12 }}>→</span>}
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    title: "🔤 5 Core Particles",
+    color: "#4ECDC4",
+    lines: [
+      { left: "wa (は)", right: "Topic — 'As for...'" },
+      { left: "o (を)", right: "Object — thing being acted on" },
+      { left: "no (の)", right: "Possession — X's Y" },
+      { left: "ni (に)", right: "Direction/time — 'to' or 'at'" },
+      { left: "de (で)", right: "Location of action — 'at/by'" },
+    ],
+  },
+  {
+    title: "🔄 Verb Conjugation",
+    color: "#f59e0b",
+    lines: [
+      { left: "-masu", right: "present/future (polite)" },
+      { left: "-mashita", right: "past (polite)" },
+      { left: "-masen", right: "negative (polite)" },
+      { left: "-masen deshita", right: "past negative (polite)" },
+      { left: "-te", right: "connecting / requests" },
+      { left: "-tai", right: "want to (drop -masu, add -tai)" },
+    ],
+  },
+  {
+    title: "⏰ Time Words",
+    color: "#FFEAA7",
+    lines: [
+      { left: "kinou", right: "yesterday" },
+      { left: "kyou", right: "today" },
+      { left: "ashita", right: "tomorrow" },
+      { left: "mainichi", right: "every day" },
+      { left: "senshuu", right: "last week" },
+      { left: "raishuu", right: "next week" },
+    ],
+  },
+  {
+    title: "❓ Questions & Answers",
+    color: "#96CEB4",
+    lines: [
+      { left: "...ka?", right: "turns anything into a question" },
+      { left: "nani", right: "what?" },
+      { left: "doko", right: "where?" },
+      { left: "dare", right: "who?" },
+      { left: "itsu", right: "when?" },
+      { left: "ikura", right: "how much?" },
+    ],
+  },
+  {
+    title: "🗣️ Casual ↔ Polite",
+    color: "#DDA0DD",
+    lines: [
+      { left: "taberu → tabemasu", right: "eat" },
+      { left: "iku → ikimasu", right: "go" },
+      { left: "nomu → nomimasu", right: "drink" },
+      { left: "suru → shimasu", right: "do" },
+      { left: "kuru → kimasu", right: "come" },
+      { left: "miru → mimasu", right: "see" },
+    ],
+  },
+  {
+    title: "🔢 Counters",
+    color: "#45B7D1",
+    lines: [
+      { left: "-tsu", right: "general (hitotsu, futatsu...)" },
+      { left: "-nin (人)", right: "people (hitori, futari...)" },
+      { left: "-hon (本)", right: "long things (ippon, nihon...)" },
+      { left: "-mai (枚)", right: "flat things (ichimai...)" },
+      { left: "-hai (杯)", right: "cups/glasses (ippai...)" },
+    ],
+  },
+  {
+    title: "🧭 Directions",
+    color: "#FF6B6B",
+    lines: [
+      { left: "migi", right: "right" },
+      { left: "hidari", right: "left" },
+      { left: "massugu", right: "straight ahead" },
+      { left: "koko / soko / asoko", right: "here / there / over there" },
+      { left: "doko", right: "where?" },
+    ],
+  },
+  {
+    title: "💬 Survival Phrases",
+    color: "#8b5cf6",
+    lines: [
+      { left: "sumimasen", right: "excuse me / sorry" },
+      { left: "onegaishimasu", right: "please (requesting)" },
+      { left: "arigatou gozaimasu", right: "thank you (polite)" },
+      { left: "daijoubu", right: "it's fine / I'm okay" },
+      { left: "wakarimasen", right: "I don't understand" },
+      { left: "mou ichido", right: "one more time" },
+    ],
+  },
+  {
+    title: "📝 Adjectives",
+    color: "#22c55e",
+    lines: [
+      { left: "i-adj: oishii", right: "→ oishikunai (neg)" },
+      { left: "i-adj: takai", right: "→ takakatta (past)" },
+      { left: "na-adj: kirei na", right: "→ kirei ja nai (neg)" },
+      { left: "na-adj: shizuka na", right: "→ shizuka datta (past)" },
+    ],
+  },
+];
+
+function QuickRefCarousel() {
+  const [idx, setIdx] = useState(0);
+  const card = QUICK_REF_CARDS[idx];
+  const prev = () => setIdx(i => (i - 1 + QUICK_REF_CARDS.length) % QUICK_REF_CARDS.length);
+  const next = () => setIdx(i => (i + 1) % QUICK_REF_CARDS.length);
+
+  return (
+    <div style={{ marginBottom: 28 }}>
+      <h2 style={{ margin: "0 0 12px", fontSize: 17, fontWeight: 800, color: "var(--text)" }}>📌 Quick Reference</h2>
+      <div style={{
+        background: "var(--card)", borderRadius: 14, border: "1px solid var(--border)",
+        overflow: "hidden",
+      }}>
+        {/* Header with arrows */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "14px 16px 10px", borderBottom: "1px solid var(--border)",
+        }}>
+          <button onClick={prev} style={{
+            width: 36, height: 36, borderRadius: 10, border: "1px solid var(--border)",
+            background: "var(--card-alt)", cursor: "pointer", fontSize: 16, color: "var(--text)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>←</button>
+          <div style={{ textAlign: "center", flex: 1 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: card.color }}>{card.title}</div>
+            <div style={{ fontSize: 11, color: "var(--text-dim)", marginTop: 2 }}>{idx + 1} / {QUICK_REF_CARDS.length}</div>
+          </div>
+          <button onClick={next} style={{
+            width: 36, height: 36, borderRadius: 10, border: "1px solid var(--border)",
+            background: "var(--card-alt)", cursor: "pointer", fontSize: 16, color: "var(--text)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>→</button>
+        </div>
+
+        {/* Card content */}
+        <div key={idx} style={{ padding: 16, animation: "fadeIn 0.2s ease", minHeight: 120 }}>
+          {card.content ? card.content : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {card.lines.map((line, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: card.color, whiteSpace: "nowrap" }}>{line.left}</span>
+                  <span style={{ fontSize: 12, color: "var(--text-dim)", textAlign: "right", flex: 1 }}>{line.right}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 5, paddingBottom: 12 }}>
+          {QUICK_REF_CARDS.map((_, i) => (
+            <div key={i} onClick={() => setIdx(i)} style={{
+              width: i === idx ? 16 : 6, height: 6, borderRadius: 3, cursor: "pointer",
+              background: i === idx ? card.color : "var(--border)", transition: "all 0.2s",
+            }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 // ============================================================
 // STYLES
 // ============================================================
@@ -2738,28 +2927,8 @@ export default function JapaneseLearningApp() {
             </div>
           </div>
 
-          {/* Quick Reference */}
-          <div style={{ marginBottom: 28 }}>
-            <h2 style={{ margin: "0 0 12px", fontSize: 17, fontWeight: 800, color: "var(--text)" }}>📌 Quick Reference</h2>
-            <div style={{
-              background: "var(--card)", borderRadius: 14, padding: 18, border: "1px solid var(--border)",
-            }}>
-              <p style={{ margin: "0 0 10px", fontSize: 13, fontWeight: 700, color: "var(--accent)" }}>THE BLOCK ORDER:</p>
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
-                {["Who wa", "Time", "Place de", "What o", "How", "Verb"].map((b, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <span style={{
-                      padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 700,
-                      background: Object.values(BLOCK_COLORS)[i] + "22",
-                      color: Object.values(BLOCK_COLORS)[i],
-                      border: `1px solid ${Object.values(BLOCK_COLORS)[i]}40`,
-                    }}>{b}</span>
-                    {i < 5 && <span style={{ color: "var(--text-dim)", fontSize: 12 }}>→</span>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* Quick Reference Carousel */}
+          <QuickRefCarousel />
 
           {/* Reset */}
           <div style={{ textAlign: "center", paddingTop: 12 }}>
