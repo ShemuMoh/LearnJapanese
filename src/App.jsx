@@ -238,52 +238,44 @@ function updateSRS(srsData, vocabId, correct) {
   return { ...data, interval: 60000, lastReview: now, wrong: data.wrong + 1 };
 }
 
-// Audio pronunciation — multiple TTS sources with fallback chain
-let _audioEl = null;
+// Audio pronunciation — optimised Web Speech API
+let _jaVoices = [];
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  const voices = window.speechSynthesis.getVoices();
+  // Rank Japanese voices: prefer enhanced/premium voices, then female, then any
+  _jaVoices = voices
+    .filter(v => v.lang === "ja-JP" || v.lang === "ja_JP" || v.lang.startsWith("ja"))
+    .sort((a, b) => {
+      const aScore = (a.name.toLowerCase().includes("enhanced") || a.name.toLowerCase().includes("premium") ? 100 : 0)
+        + (a.name.toLowerCase().includes("kyoko") || a.name.toLowerCase().includes("o-ren") ? 50 : 0)
+        + (a.localService ? 0 : 10);
+      const bScore = (b.name.toLowerCase().includes("enhanced") || b.name.toLowerCase().includes("premium") ? 100 : 0)
+        + (b.name.toLowerCase().includes("kyoko") || b.name.toLowerCase().includes("o-ren") ? 50 : 0)
+        + (b.localService ? 0 : 10);
+      return bScore - aScore;
+    });
+}
+
 function speakJapanese(text) {
-  if (!text) return;
-  const clean = text.replace(/[。、！？「」\s]+/g, ' ').trim();
+  if (!text || !window.speechSynthesis) return;
+  const clean = text.replace(/[。、！？「」]/g, '').trim();
   if (!clean) return;
 
-  if (_audioEl) { _audioEl.pause(); _audioEl = null; }
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  window.speechSynthesis.cancel();
+  if (_jaVoices.length === 0) _loadVoices();
 
-  const encoded = encodeURIComponent(clean);
-  
-  // Try multiple Google TTS endpoints in order
-  const urls = [
-    `https://translate.googleapis.com/translate_tts?ie=UTF-8&tl=ja&client=gtx&q=${encoded}`,
-    `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encoded}`,
-  ];
-
-  function tryUrl(index) {
-    if (index >= urls.length) {
-      // All URLs failed — use Web Speech API
-      _fallbackSpeak(clean);
-      return;
-    }
-    const audio = new Audio(urls[index]);
-    _audioEl = audio;
-    audio.playbackRate = 0.9;
-    audio.onerror = () => tryUrl(index + 1);
-    audio.play().catch(() => tryUrl(index + 1));
-  }
-
-  tryUrl(0);
-}
-
-function _fallbackSpeak(text) {
-  if (!window.speechSynthesis) return;
-  const utter = new SpeechSynthesisUtterance(text);
+  const utter = new SpeechSynthesisUtterance(clean);
   utter.lang = "ja-JP";
-  utter.rate = 0.85;
-  const voices = window.speechSynthesis.getVoices();
-  const jaVoice = voices.find(v => v.lang.startsWith("ja"));
-  if (jaVoice) utter.voice = jaVoice;
+  utter.rate = 0.8;
+  utter.pitch = 1.05;
+  if (_jaVoices.length > 0) utter.voice = _jaVoices[0];
   window.speechSynthesis.speak(utter);
 }
+
 if (typeof window !== 'undefined' && window.speechSynthesis) {
-  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
 }
 
 const LESSONS = [
