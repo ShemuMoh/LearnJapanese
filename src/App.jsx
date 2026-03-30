@@ -238,10 +238,36 @@ function updateSRS(srsData, vocabId, correct) {
   return { ...data, interval: 60000, lastReview: now, wrong: data.wrong + 1 };
 }
 
-// Audio pronunciation
+// Audio pronunciation — Google Translate TTS with Web Speech API fallback
+let _audioEl = null;
 function speakJapanese(text) {
+  if (!text) return;
+  // Clean text for TTS
+  const clean = text.replace(/[。、！？\s]+/g, ' ').trim();
+  if (!clean) return;
+
+  // Stop any currently playing audio
+  if (_audioEl) { _audioEl.pause(); _audioEl = null; }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+  // Try Google Translate TTS first (much more natural)
+  try {
+    const encoded = encodeURIComponent(clean);
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encoded}`;
+    const audio = new Audio(url);
+    _audioEl = audio;
+    audio.playbackRate = 0.9;
+    audio.play().catch(() => {
+      // Fallback to Web Speech API if Google TTS fails
+      _fallbackSpeak(clean);
+    });
+  } catch {
+    _fallbackSpeak(clean);
+  }
+}
+
+function _fallbackSpeak(text) {
   if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = "ja-JP";
   utter.rate = 0.85;
