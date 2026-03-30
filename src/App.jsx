@@ -2845,36 +2845,31 @@ function VocabIndex() {
 
 
 // ============================================================
-// TRANSLATOR (Google Translate API — free, no key)
+// TRANSLATOR (MyMemory API — free, no key, CORS-friendly)
 // ============================================================
-async function googleTranslate(text, sourceLang, targetLang) {
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&dt=rm&q=${encodeURIComponent(text)}`;
+async function translateAPI(text, sourceLang, targetLang) {
+  // MyMemory is explicitly CORS-friendly for web apps
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}&de=nihongojourney@app.com`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("Translation request failed");
   const data = await res.json();
-  // data[0] = array of translation segments, data[0][i][0] = translated, data[0][i][1] = source
-  // dt=rm gives romanization in data[0][i][3] sometimes
-  let translated = "";
-  let romaji = "";
-  if (Array.isArray(data) && data[0]) {
-    translated = data[0].filter(s => s && s[0]).map(s => s[0]).join("");
-    // Try to get romanization from the response
-    if (data[0][0] && data[0][0][3]) romaji = data[0][0][3];
-  }
-  return { translated, romaji, raw: data };
+  if (data.responseStatus !== 200 && data.responseStatus !== "200") throw new Error("Bad response");
+  return data.responseData.translatedText;
 }
 
-// Simple romaji converter for common patterns (supplements Google's romanization)
+// Simple romaji converter for hiragana
 function toRomaji(jp) {
-  const map = {"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"wo","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","っ":"(double)","ー":"-","。":".","、":",","？":"?","！":"!"};
+  const map = {"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"wo","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","っ":"(double)","ー":"-","。":".","、":",","？":"?","！":"!","ア":"a","イ":"i","ウ":"u","エ":"e","オ":"o","カ":"ka","キ":"ki","ク":"ku","ケ":"ke","コ":"ko","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","タ":"ta","チ":"chi","ツ":"tsu","テ":"te","ト":"to","ナ":"na","ニ":"ni","ヌ":"nu","ネ":"ne","ノ":"no","ハ":"ha","ヒ":"hi","フ":"fu","ヘ":"he","ホ":"ho","マ":"ma","ミ":"mi","ム":"mu","メ":"me","モ":"mo","ヤ":"ya","ユ":"yu","ヨ":"yo","ラ":"ra","リ":"ri","ル":"ru","レ":"re","ロ":"ro","ワ":"wa","ヲ":"wo","ン":"n"};
   let result = "";
   for (let i = 0; i < jp.length; i++) {
-    if (jp[i] === "っ" && i + 1 < jp.length && map[jp[i+1]]) {
-      result += map[jp[i+1]][0]; // double the consonant
+    if ((jp[i] === "っ" || jp[i] === "ッ") && i + 1 < jp.length && map[jp[i+1]]) {
+      result += map[jp[i+1]][0];
     } else if (map[jp[i]]) {
       result += map[jp[i]];
+    } else if (jp[i] === " " || jp[i] === "　") {
+      result += " ";
     } else {
-      result += jp[i]; // keep kanji/katakana/unknown as-is
+      result += jp[i];
     }
   }
   return result;
@@ -2898,38 +2893,37 @@ function Translator() {
       const src = isEnToJa ? "en" : "ja";
       const tgt = isEnToJa ? "ja" : "en";
 
-      const { translated, romaji } = await googleTranslate(input.trim(), src, tgt);
+      const translated = await translateAPI(input.trim(), src, tgt);
 
       if (isEnToJa) {
-        // For en→ja, also get the romaji by translating japanese to romaji
-        let finalRomaji = romaji;
-        if (!finalRomaji || finalRomaji === translated) {
-          // Try to get romaji via a second call (ja → en gives romanization)
-          try {
-            const r2 = await googleTranslate(translated, "ja", "en");
-            if (r2.romaji && r2.romaji !== translated) finalRomaji = r2.romaji;
-            else finalRomaji = toRomaji(translated);
-          } catch { finalRomaji = toRomaji(translated); }
-        }
-        // Also get word-by-word literal translation
+        // Get romaji
+        const romaji = toRomaji(translated);
+
+        // Get word-by-word literal
         let literal = "";
         try {
-          const words = translated.replace(/[。、！？]/g, "").split(/\s+/).filter(Boolean);
-          if (words.length <= 8) {
-            const literalParts = [];
-            for (const w of words) {
-              const { translated: eng } = await googleTranslate(w, "ja", "en");
-              literalParts.push(eng.toLowerCase());
+          // Split Japanese by particles/spaces and translate each chunk
+          const chunks = translated.split(/([はをのにでがもと])/).filter(Boolean);
+          if (chunks.length <= 12 && chunks.length > 1) {
+            const parts = [];
+            for (const chunk of chunks) {
+              if (chunk.length <= 1 && "はをのにでがもと".includes(chunk)) {
+                parts.push("(" + chunk + ")");
+              } else {
+                try {
+                  const eng = await translateAPI(chunk, "ja", "en");
+                  parts.push(eng.toLowerCase());
+                } catch { parts.push(chunk); }
+              }
             }
-            literal = literalParts.join(" — ");
+            literal = parts.join(" ");
           }
         } catch {}
 
-        setResult({ translation: translated, romaji: finalRomaji, literal, isJapanese: true });
+        setResult({ translation: translated, romaji, literal, isJapanese: true });
       } else {
-        // ja→en
-        let romajiFinal = romaji || toRomaji(input.trim());
-        setResult({ translation: translated, romaji: romajiFinal, literal: "", isJapanese: false, originalJp: input.trim() });
+        const romaji = toRomaji(input.trim());
+        setResult({ translation: translated, romaji, literal: "", isJapanese: false, originalJp: input.trim() });
       }
     } catch (err) {
       console.error(err);
@@ -2960,7 +2954,7 @@ function Translator() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); translate(); } }}
-          placeholder={direction === "en-ja" ? "Type English..." : "Type Japanese (kana, kanji, or romaji)..."}
+          placeholder={direction === "en-ja" ? "Type English..." : "Type Japanese..."}
           style={{
             width: "100%", padding: "16px", fontSize: 18, borderRadius: 14,
             border: "2px solid var(--border)", background: "var(--card)", color: "var(--text)",
@@ -3005,19 +2999,19 @@ function Translator() {
                 }}>🔊 Listen</button>
               )}
             </div>
-            {result.romaji && (
+            {result.romaji && result.isJapanese && (
               <div style={{ fontSize: 16, color: "var(--accent)", fontWeight: 600, marginBottom: 4 }}>
                 {result.romaji}
               </div>
             )}
             {result.literal && (
-              <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic" }}>
+              <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic", marginTop: 4 }}>
                 Literal: {result.literal}
               </div>
             )}
           </div>
 
-          {/* Reverse translation (for context) */}
+          {/* Pronunciation guide for en→ja */}
           {result.isJapanese && (
             <div style={{
               background: "var(--card)", borderRadius: 16, padding: 20, marginBottom: 16,
@@ -3026,24 +3020,24 @@ function Translator() {
               <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
                 Pronunciation Guide
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontSize: 14, color: "var(--text-dim)" }}>Japanese</span>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>{result.translation}</span>
+                  <span style={{ fontSize: 18, fontWeight: 600, color: "var(--text)" }}>{result.translation}</span>
                 </div>
-                {result.romaji && <div style={{ display: "flex", justifyContent: "space-between" }}>
+                {result.romaji && <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontSize: 14, color: "var(--text-dim)" }}>Romaji</span>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--accent)" }}>{result.romaji}</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: "var(--accent)" }}>{result.romaji}</span>
                 </div>}
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontSize: 14, color: "var(--text-dim)" }}>English</span>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>{input.trim()}</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: "var(--text)" }}>{input.trim()}</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* For ja→en, show the Japanese breakdown */}
+          {/* For ja→en, show original with audio */}
           {!result.isJapanese && result.originalJp && (
             <div style={{
               background: "var(--card)", borderRadius: 16, padding: 20, marginBottom: 16,
@@ -3616,7 +3610,7 @@ export default function JapaneseLearningApp() {
           <div style={{ marginBottom: 20 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1 }}>AI Translator</span>
             <h2 style={{ margin: "4px 0", fontSize: 22, fontWeight: 800 }}>🌐 Translator</h2>
-            <p style={{ margin: 0, fontSize: 13, color: "var(--text-dim)" }}>Powered by Claude — with block breakdown</p>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-dim)" }}>English ↔ Japanese with romaji & audio</p>
           </div>
           <Translator />
           <div style={{ textAlign: "center", marginTop: 20 }}>
