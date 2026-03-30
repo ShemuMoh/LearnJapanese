@@ -2479,17 +2479,36 @@ const QUICK_REF_CARDS = [
 
 function QuickRefCarousel() {
   const [idx, setIdx] = useState(0);
+  const touchRef = useRef({ startX: 0, startY: 0 });
   const card = QUICK_REF_CARDS[idx];
   const prev = () => setIdx(i => (i - 1 + QUICK_REF_CARDS.length) % QUICK_REF_CARDS.length);
   const next = () => setIdx(i => (i + 1) % QUICK_REF_CARDS.length);
 
+  const onTouchStart = (e) => {
+    touchRef.current.startX = e.touches[0].clientX;
+    touchRef.current.startY = e.touches[0].clientY;
+  };
+  const onTouchEnd = (e) => {
+    const dx = e.changedTouches[0].clientX - touchRef.current.startX;
+    const dy = e.changedTouches[0].clientY - touchRef.current.startY;
+    // Only swipe if horizontal movement is greater than vertical (avoid hijacking scroll)
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) next();
+      else prev();
+    }
+  };
+
   return (
     <div style={{ marginBottom: 28 }}>
       <h2 style={{ margin: "0 0 12px", fontSize: 17, fontWeight: 800, color: "var(--text)" }}>📌 Quick Reference</h2>
-      <div style={{
-        background: "var(--card)", borderRadius: 14, border: "1px solid var(--border)",
-        overflow: "hidden",
-      }}>
+      <div
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        style={{
+          background: "var(--card)", borderRadius: 14, border: "1px solid var(--border)",
+          overflow: "hidden", touchAction: "pan-y",
+        }}
+      >
         {/* Header with arrows */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -2541,6 +2560,461 @@ function QuickRefCarousel() {
 
 
 // ============================================================
+// VOCABULARY INDEX
+// ============================================================
+const VOCAB_INDEX = {
+  "Common Verbs": {
+    icon: "🏃",
+    color: "#45B7D1",
+    words: [
+      { r: "tabemasu / taberu", jp: "たべます / たべる", en: "eat" },
+      { r: "nomimasu / nomu", jp: "のみます / のむ", en: "drink" },
+      { r: "ikimasu / iku", jp: "いきます / いく", en: "go" },
+      { r: "kimasu / kuru", jp: "きます / くる", en: "come" },
+      { r: "mimasu / miru", jp: "みます / みる", en: "see / watch" },
+      { r: "shimasu / suru", jp: "します / する", en: "do" },
+      { r: "kaimasu / kau", jp: "かいます / かう", en: "buy" },
+      { r: "yomimasu / yomu", jp: "よみます / よむ", en: "read" },
+      { r: "kakimasu / kaku", jp: "かきます / かく", en: "write" },
+      { r: "hanashimasu / hanasu", jp: "はなします / はなす", en: "speak" },
+      { r: "okimasu / okiru", jp: "おきます / おきる", en: "wake up" },
+      { r: "nemasu / neru", jp: "ねます / ねる", en: "sleep" },
+      { r: "hatarakimasu / hataraku", jp: "はたらきます / はたらく", en: "work" },
+      { r: "arukimasu / aruku", jp: "あるきます / あるく", en: "walk" },
+      { r: "arimasu / aru", jp: "あります / ある", en: "exist (things)" },
+      { r: "imasu / iru", jp: "います / いる", en: "exist (living)" },
+      { r: "wakarimasu / wakaru", jp: "わかります / わかる", en: "understand" },
+      { r: "aimasu / au", jp: "あいます / あう", en: "meet" },
+      { r: "tsukaimasu / tsukau", jp: "つかいます / つかう", en: "use" },
+      { r: "magarimasu / magaru", jp: "まがります / まがる", en: "turn" },
+    ]
+  },
+  "Days of the Week": {
+    icon: "📅",
+    color: "#FF6B6B",
+    words: [
+      { r: "getsuyoubi", jp: "月曜日", en: "Monday" },
+      { r: "kayoubi", jp: "火曜日", en: "Tuesday" },
+      { r: "suiyoubi", jp: "水曜日", en: "Wednesday" },
+      { r: "mokuyoubi", jp: "木曜日", en: "Thursday" },
+      { r: "kinyoubi", jp: "金曜日", en: "Friday" },
+      { r: "doyoubi", jp: "土曜日", en: "Saturday" },
+      { r: "nichiyoubi", jp: "日曜日", en: "Sunday" },
+    ]
+  },
+  "Months": {
+    icon: "🗓️",
+    color: "#8b5cf6",
+    words: [
+      { r: "ichigatsu", jp: "一月", en: "January" },
+      { r: "nigatsu", jp: "二月", en: "February" },
+      { r: "sangatsu", jp: "三月", en: "March" },
+      { r: "shigatsu", jp: "四月", en: "April" },
+      { r: "gogatsu", jp: "五月", en: "May" },
+      { r: "rokugatsu", jp: "六月", en: "June" },
+      { r: "shichigatsu", jp: "七月", en: "July" },
+      { r: "hachigatsu", jp: "八月", en: "August" },
+      { r: "kugatsu", jp: "九月", en: "September" },
+      { r: "juugatsu", jp: "十月", en: "October" },
+      { r: "juuichigatsu", jp: "十一月", en: "November" },
+      { r: "juunigatsu", jp: "十二月", en: "December" },
+    ]
+  },
+  "Time Words": {
+    icon: "⏰",
+    color: "#FFEAA7",
+    words: [
+      { r: "kinou", jp: "きのう", en: "yesterday" },
+      { r: "kyou", jp: "きょう", en: "today" },
+      { r: "ashita", jp: "あした", en: "tomorrow" },
+      { r: "mainichi", jp: "まいにち", en: "every day" },
+      { r: "maiasa", jp: "まいあさ", en: "every morning" },
+      { r: "maiban", jp: "まいばん", en: "every evening" },
+      { r: "maishuu", jp: "まいしゅう", en: "every week" },
+      { r: "maitsuki", jp: "まいつき", en: "every month" },
+      { r: "senshuu", jp: "せんしゅう", en: "last week" },
+      { r: "konshuu", jp: "こんしゅう", en: "this week" },
+      { r: "raishuu", jp: "らいしゅう", en: "next week" },
+      { r: "sengetsu", jp: "せんげつ", en: "last month" },
+      { r: "kongetsu", jp: "こんげつ", en: "this month" },
+      { r: "raigetsu", jp: "らいげつ", en: "next month" },
+      { r: "asa", jp: "あさ", en: "morning" },
+      { r: "hiru", jp: "ひる", en: "noon / daytime" },
+      { r: "yoru", jp: "よる", en: "night / evening" },
+      { r: "ima", jp: "いま", en: "now" },
+      { r: "itsumo", jp: "いつも", en: "always" },
+      { r: "tokidoki", jp: "ときどき", en: "sometimes" },
+    ]
+  },
+  "Numbers": {
+    icon: "🔢",
+    color: "#4ECDC4",
+    words: [
+      { r: "ichi", jp: "一 (いち)", en: "1" },
+      { r: "ni", jp: "二 (に)", en: "2" },
+      { r: "san", jp: "三 (さん)", en: "3" },
+      { r: "shi / yon", jp: "四 (し/よん)", en: "4" },
+      { r: "go", jp: "五 (ご)", en: "5" },
+      { r: "roku", jp: "六 (ろく)", en: "6" },
+      { r: "shichi / nana", jp: "七 (しち/なな)", en: "7" },
+      { r: "hachi", jp: "八 (はち)", en: "8" },
+      { r: "kyuu / ku", jp: "九 (きゅう/く)", en: "9" },
+      { r: "juu", jp: "十 (じゅう)", en: "10" },
+      { r: "hyaku", jp: "百 (ひゃく)", en: "100" },
+      { r: "sen", jp: "千 (せん)", en: "1,000" },
+      { r: "man", jp: "万 (まん)", en: "10,000" },
+    ]
+  },
+  "Places": {
+    icon: "📍",
+    color: "#96CEB4",
+    words: [
+      { r: "gakkou", jp: "がっこう", en: "school" },
+      { r: "kaisha", jp: "かいしゃ", en: "company / office" },
+      { r: "eki", jp: "えき", en: "station" },
+      { r: "resutoran", jp: "レストラン", en: "restaurant" },
+      { r: "hoteru", jp: "ホテル", en: "hotel" },
+      { r: "konbini", jp: "コンビニ", en: "convenience store" },
+      { r: "mise", jp: "みせ", en: "shop / store" },
+      { r: "ie / uchi", jp: "いえ / うち", en: "house / home" },
+      { r: "byouin", jp: "びょういん", en: "hospital" },
+      { r: "ginkou", jp: "ぎんこう", en: "bank" },
+      { r: "yuubinkyoku", jp: "ゆうびんきょく", en: "post office" },
+      { r: "kuukou", jp: "くうこう", en: "airport" },
+      { r: "kouen", jp: "こうえん", en: "park" },
+      { r: "toshokan", jp: "としょかん", en: "library" },
+      { r: "depato", jp: "デパート", en: "department store" },
+      { r: "suupaa", jp: "スーパー", en: "supermarket" },
+    ]
+  },
+  "Food & Drink": {
+    icon: "🍱",
+    color: "#f59e0b",
+    words: [
+      { r: "gohan", jp: "ごはん", en: "rice / meal" },
+      { r: "pan", jp: "パン", en: "bread" },
+      { r: "sushi", jp: "すし", en: "sushi" },
+      { r: "raamen", jp: "ラーメン", en: "ramen" },
+      { r: "niku", jp: "にく", en: "meat" },
+      { r: "sakana", jp: "さかな", en: "fish" },
+      { r: "yasai", jp: "やさい", en: "vegetables" },
+      { r: "tamago", jp: "たまご", en: "egg" },
+      { r: "kudamono", jp: "くだもの", en: "fruit" },
+      { r: "mizu", jp: "みず", en: "water" },
+      { r: "ocha", jp: "おちゃ", en: "tea" },
+      { r: "koohii", jp: "コーヒー", en: "coffee" },
+      { r: "biiru", jp: "ビール", en: "beer" },
+      { r: "miruku", jp: "ミルク", en: "milk" },
+      { r: "juusu", jp: "ジュース", en: "juice" },
+    ]
+  },
+  "People & Family": {
+    icon: "👨‍👩‍👧",
+    color: "#DDA0DD",
+    words: [
+      { r: "watashi", jp: "わたし", en: "I / me" },
+      { r: "anata", jp: "あなた", en: "you" },
+      { r: "kare", jp: "かれ", en: "he / boyfriend" },
+      { r: "kanojo", jp: "かのじょ", en: "she / girlfriend" },
+      { r: "tomodachi", jp: "ともだち", en: "friend" },
+      { r: "sensei", jp: "せんせい", en: "teacher" },
+      { r: "gakusei", jp: "がくせい", en: "student" },
+      { r: "kazoku", jp: "かぞく", en: "family" },
+      { r: "okaasan", jp: "おかあさん", en: "mother" },
+      { r: "otousan", jp: "おとうさん", en: "father" },
+      { r: "oniisan", jp: "おにいさん", en: "older brother" },
+      { r: "oneesan", jp: "おねえさん", en: "older sister" },
+      { r: "kodomo", jp: "こども", en: "child" },
+      { r: "hito", jp: "ひと", en: "person" },
+    ]
+  },
+  "Adjectives": {
+    icon: "✨",
+    color: "#22c55e",
+    words: [
+      { r: "oishii", jp: "おいしい", en: "delicious" },
+      { r: "ookii", jp: "おおきい", en: "big" },
+      { r: "chiisai", jp: "ちいさい", en: "small" },
+      { r: "takai", jp: "たかい", en: "expensive / tall" },
+      { r: "yasui", jp: "やすい", en: "cheap" },
+      { r: "atarashii", jp: "あたらしい", en: "new" },
+      { r: "furui", jp: "ふるい", en: "old (things)" },
+      { r: "ii / yoi", jp: "いい / よい", en: "good" },
+      { r: "warui", jp: "わるい", en: "bad" },
+      { r: "atsui", jp: "あつい", en: "hot" },
+      { r: "samui", jp: "さむい", en: "cold (weather)" },
+      { r: "hayai", jp: "はやい", en: "fast / early" },
+      { r: "osoi", jp: "おそい", en: "slow / late" },
+      { r: "kirei (na)", jp: "きれい(な)", en: "beautiful / clean" },
+      { r: "shizuka (na)", jp: "しずか(な)", en: "quiet" },
+      { r: "genki (na)", jp: "げんき(な)", en: "energetic / well" },
+      { r: "yuumei (na)", jp: "ゆうめい(な)", en: "famous" },
+    ]
+  },
+  "Useful Phrases": {
+    icon: "💬",
+    color: "#6366f1",
+    words: [
+      { r: "sumimasen", jp: "すみません", en: "excuse me / sorry" },
+      { r: "arigatou gozaimasu", jp: "ありがとうございます", en: "thank you (polite)" },
+      { r: "onegaishimasu", jp: "おねがいします", en: "please (requesting)" },
+      { r: "kudasai", jp: "ください", en: "please give me" },
+      { r: "hajimemashite", jp: "はじめまして", en: "nice to meet you" },
+      { r: "yoroshiku onegaishimasu", jp: "よろしくおねがいします", en: "pleased to meet you (formal)" },
+      { r: "daijoubu", jp: "だいじょうぶ", en: "it's okay / I'm fine" },
+      { r: "wakarimasen", jp: "わかりません", en: "I don't understand" },
+      { r: "mou ichido", jp: "もういちど", en: "one more time" },
+      { r: "chotto matte", jp: "ちょっとまって", en: "wait a moment" },
+      { r: "itadakimasu", jp: "いただきます", en: "bon appétit (before eating)" },
+      { r: "gochisousama", jp: "ごちそうさま", en: "thank you for the meal" },
+      { r: "irasshaimase", jp: "いらっしゃいませ", en: "welcome (shop greeting)" },
+      { r: "sayounara", jp: "さようなら", en: "goodbye" },
+      { r: "mata ne", jp: "またね", en: "see you (casual)" },
+      { r: "oyasumi nasai", jp: "おやすみなさい", en: "good night" },
+    ]
+  },
+};
+
+function VocabIndex() {
+  const tabs = Object.keys(VOCAB_INDEX);
+  const [activeTab, setActiveTab] = useState(0);
+  const tabData = VOCAB_INDEX[tabs[activeTab]];
+  const touchRef = useRef({ startX: 0, startY: 0 });
+
+  const onTouchStart = (e) => { touchRef.current.startX = e.touches[0].clientX; touchRef.current.startY = e.touches[0].clientY; };
+  const onTouchEnd = (e) => {
+    const dx = e.changedTouches[0].clientX - touchRef.current.startX;
+    const dy = e.changedTouches[0].clientY - touchRef.current.startY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) setActiveTab(t => Math.min(t + 1, tabs.length - 1));
+      else setActiveTab(t => Math.max(t - 1, 0));
+    }
+  };
+
+  return (
+    <div>
+      {/* Scrollable tabs */}
+      <div style={{
+        display: "flex", gap: 6, overflowX: "auto", paddingBottom: 12, marginBottom: 16,
+        WebkitOverflowScrolling: "touch", scrollbarWidth: "none",
+      }}>
+        {tabs.map((tab, i) => {
+          const data = VOCAB_INDEX[tab];
+          const active = i === activeTab;
+          return (
+            <button key={tab} onClick={() => setActiveTab(i)} style={{
+              padding: "8px 14px", borderRadius: 10, border: `1px solid ${active ? data.color + "80" : "var(--border)"}`,
+              background: active ? data.color + "20" : "var(--card)",
+              cursor: "pointer", whiteSpace: "nowrap", fontSize: 13, fontWeight: 700,
+              color: active ? data.color : "var(--text-dim)", transition: "all 0.15s",
+              flexShrink: 0,
+            }}>
+              {data.icon} {tab}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Word list */}
+      <div
+        key={activeTab}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        style={{ animation: "fadeIn 0.2s ease", touchAction: "pan-y" }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {tabData.words.map((w, i) => (
+            <div key={i} onClick={() => speakJapanese(w.jp)} style={{
+              display: "flex", alignItems: "center", gap: 12, padding: "12px 16px",
+              background: "var(--card)", borderRadius: 12, border: "1px solid var(--border)",
+              cursor: "pointer",
+            }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: tabData.color }}>{w.r}</div>
+                <div style={{ fontSize: 12, color: "var(--text-dim)" }}>{w.jp}</div>
+              </div>
+              <div style={{ fontSize: 13, color: "var(--text)", textAlign: "right", flexShrink: 0 }}>{w.en}</div>
+              <span style={{ fontSize: 14, opacity: 0.4, flexShrink: 0 }}>🔊</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// ============================================================
+// TRANSLATOR (Claude-powered)
+// ============================================================
+function Translator() {
+  const [input, setInput] = useState("");
+  const [direction, setDirection] = useState("en-ja"); // en-ja or ja-en
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const inputRef = useRef(null);
+
+  const translate = async () => {
+    if (!input.trim()) return;
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    const isEnToJa = direction === "en-ja";
+    const prompt = isEnToJa
+      ? `Translate this English to Japanese. Respond ONLY with valid JSON, no markdown, no backticks, no explanation.
+
+Format:
+{"translation":"[Japanese in hiragana/katakana/kanji as appropriate]","romaji":"[full romaji]","literal":"[word-by-word literal meaning]","blocks":[{"label":"[Who/Time/Place/What/How/Verb]","jp":"[Japanese]","r":"[romaji]"}],"notes":"[brief grammar note if useful, otherwise empty string]"}
+
+Translate: "${input.trim()}"`
+      : `Translate this Japanese to English. Respond ONLY with valid JSON, no markdown, no backticks, no explanation.
+
+Format:
+{"translation":"[natural English translation]","romaji":"[romaji of the Japanese input]","literal":"[word-by-word literal meaning]","blocks":[{"label":"[Who/Time/Place/What/How/Verb]","jp":"[Japanese]","r":"[romaji]"}],"notes":"[brief grammar note if useful, otherwise empty string]"}
+
+Translate: "${input.trim()}"`;
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      const data = await response.json();
+      const text = data.content?.map(c => c.text || "").join("") || "";
+      const clean = text.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+      setResult(parsed);
+    } catch (err) {
+      setError("Translation failed. Please try again.");
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      {/* Direction toggle */}
+      <div style={{ display: "flex", gap: 2, background: "var(--card)", borderRadius: 12, padding: 3, marginBottom: 16, border: "1px solid var(--border)" }}>
+        <button onClick={() => setDirection("en-ja")} style={{
+          flex: 1, padding: "10px", borderRadius: 10, border: "none", fontSize: 14, fontWeight: 700,
+          cursor: "pointer", background: direction === "en-ja" ? "var(--accent)" : "transparent",
+          color: direction === "en-ja" ? "#fff" : "var(--text-dim)",
+        }}>English → Japanese</button>
+        <button onClick={() => setDirection("ja-en")} style={{
+          flex: 1, padding: "10px", borderRadius: 10, border: "none", fontSize: 14, fontWeight: 700,
+          cursor: "pointer", background: direction === "ja-en" ? "var(--accent)" : "transparent",
+          color: direction === "ja-en" ? "#fff" : "var(--text-dim)",
+        }}>Japanese → English</button>
+      </div>
+
+      {/* Input */}
+      <div style={{ marginBottom: 16 }}>
+        <textarea
+          ref={inputRef}
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); translate(); } }}
+          placeholder={direction === "en-ja" ? "Type English..." : "Type Japanese (romaji or kana)..."}
+          style={{
+            width: "100%", padding: "16px", fontSize: 18, borderRadius: 14,
+            border: "2px solid var(--border)", background: "var(--card)", color: "var(--text)",
+            outline: "none", resize: "none", minHeight: 80, fontFamily: "inherit",
+          }}
+        />
+        <button onClick={translate} disabled={!input.trim() || loading} style={{
+          ...btnPrimary, width: "100%", marginTop: 8, padding: "14px",
+          fontSize: 16, opacity: (!input.trim() || loading) ? 0.5 : 1,
+        }}>
+          {loading ? "Translating..." : "Translate"}
+        </button>
+      </div>
+
+      {/* Error */}
+      {error && (
+        <div style={{ padding: 16, borderRadius: 12, background: "#ef444418", border: "1px solid #ef444440", marginBottom: 16, textAlign: "center" }}>
+          <p style={{ margin: 0, color: "#ef4444", fontSize: 14 }}>{error}</p>
+        </div>
+      )}
+
+      {/* Result */}
+      {result && (
+        <div style={{ animation: "fadeIn 0.3s ease" }}>
+          {/* Main translation */}
+          <div style={{
+            background: "var(--card)", borderRadius: 16, padding: 24, marginBottom: 16,
+            border: "1px solid var(--border)",
+          }}>
+            <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
+              Translation
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "var(--text)", flex: 1 }}>
+                {result.translation}
+              </div>
+              {direction === "en-ja" && (
+                <button onClick={() => speakJapanese(result.translation)} style={{
+                  background: "var(--accent)" + "20", border: "1px solid var(--accent)", borderRadius: 10,
+                  padding: "8px 14px", cursor: "pointer", fontSize: 14, color: "var(--accent)", fontWeight: 600,
+                  display: "flex", alignItems: "center", gap: 6,
+                }}>🔊 Listen</button>
+              )}
+            </div>
+            {result.romaji && (
+              <div style={{ fontSize: 16, color: "var(--accent)", fontWeight: 600, marginBottom: 4 }}>
+                {result.romaji}
+              </div>
+            )}
+            {result.literal && (
+              <div style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic" }}>
+                Literal: {result.literal}
+              </div>
+            )}
+          </div>
+
+          {/* Block breakdown */}
+          {result.blocks && result.blocks.length > 0 && (
+            <div style={{
+              background: "var(--card)", borderRadius: 16, padding: 24, marginBottom: 16,
+              border: "1px solid var(--border)",
+            }}>
+              <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>
+                Block Breakdown
+              </div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
+                {result.blocks.map((b, i) => (
+                  <Block key={i} label={b.label} jp={b.jp} romaji={b.r} animate={true} index={i} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Grammar note */}
+          {result.notes && result.notes.length > 0 && (
+            <div style={{
+              background: "#1a1a2e", borderRadius: 14, padding: 16, marginBottom: 16,
+              border: "1px solid #2a2a4a",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 16 }}>💡</span>
+                <span style={{ fontSize: 14, color: "#a78bfa", lineHeight: 1.5 }}>{result.notes}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+// ============================================================
 // STYLES
 // ============================================================
 const btnPrimary = {
@@ -2561,7 +3035,7 @@ const btnSecondary = {
 export default function JapaneseLearningApp() {
   const [progress, setProgress] = useState(DEFAULT_PROGRESS);
   const [loaded, setLoaded] = useState(false);
-  const [view, setView] = useState("home"); // home, lesson, quiz, minigame, review
+  const [view, setView] = useState("home"); // home, lesson, quiz, minigame, review, vocab, translate
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeQuiz, setActiveQuiz] = useState(null);
   const [activeMinigame, setActiveMinigame] = useState(null);
@@ -2930,6 +3404,36 @@ export default function JapaneseLearningApp() {
           {/* Quick Reference Carousel */}
           <QuickRefCarousel />
 
+          {/* Vocab Index Button */}
+          <button onClick={() => setView("vocab")} style={{
+            width: "100%", padding: "18px 20px", borderRadius: 14,
+            background: "linear-gradient(135deg, #f59e0b15, #22c55e15)",
+            border: "1px solid #f59e0b30", cursor: "pointer", textAlign: "left",
+            display: "flex", alignItems: "center", gap: 14, marginBottom: 10,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, background: "#f59e0b18" }}>📖</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)" }}>Vocabulary Index</div>
+              <div style={{ fontSize: 12, color: "#f59e0b" }}>Verbs, days, months, places, phrases — all in one place</div>
+            </div>
+            <span style={{ fontSize: 20, color: "var(--text-dim)" }}>→</span>
+          </button>
+
+          {/* Translator Button */}
+          <button onClick={() => setView("translate")} style={{
+            width: "100%", padding: "18px 20px", borderRadius: 14,
+            background: "linear-gradient(135deg, #6366f115, #45B7D115)",
+            border: "1px solid #6366f130", cursor: "pointer", textAlign: "left",
+            display: "flex", alignItems: "center", gap: 14, marginBottom: 24,
+          }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, background: "#6366f118" }}>🌐</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)" }}>Translator</div>
+              <div style={{ fontSize: 12, color: "var(--accent)" }}>English ↔ Japanese with block breakdown & audio</div>
+            </div>
+            <span style={{ fontSize: 20, color: "var(--text-dim)" }}>→</span>
+          </button>
+
           {/* Reset */}
           <div style={{ textAlign: "center", paddingTop: 12 }}>
             <button onClick={resetProgress} style={{
@@ -3030,6 +3534,36 @@ export default function JapaneseLearningApp() {
             progress={progress}
             onComplete={completeReview}
           />
+          <div style={{ textAlign: "center", marginTop: 20 }}>
+            <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
+          </div>
+        </div>
+      )}
+
+      {/* VOCAB INDEX VIEW */}
+      {view === "vocab" && (
+        <div style={{ paddingTop: 16, animation: "fadeIn 0.3s ease" }}>
+          <div style={{ marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#f59e0b", textTransform: "uppercase", letterSpacing: 1 }}>Reference</span>
+            <h2 style={{ margin: "4px 0", fontSize: 22, fontWeight: 800 }}>📖 Vocabulary Index</h2>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-dim)" }}>Tap any word to hear it</p>
+          </div>
+          <VocabIndex />
+          <div style={{ textAlign: "center", marginTop: 20 }}>
+            <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
+          </div>
+        </div>
+      )}
+
+      {/* TRANSLATOR VIEW */}
+      {view === "translate" && (
+        <div style={{ paddingTop: 16, animation: "fadeIn 0.3s ease" }}>
+          <div style={{ marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1 }}>AI Translator</span>
+            <h2 style={{ margin: "4px 0", fontSize: 22, fontWeight: 800 }}>🌐 Translator</h2>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-dim)" }}>Powered by Claude — with block breakdown</p>
+          </div>
+          <Translator />
           <div style={{ textAlign: "center", marginTop: 20 }}>
             <button onClick={() => setView("home")} style={btnSecondary}>Back to Home</button>
           </div>
