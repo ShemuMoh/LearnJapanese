@@ -2845,15 +2845,47 @@ function VocabIndex() {
 
 
 // ============================================================
-// TRANSLATOR (Claude-powered)
+// TRANSLATOR (Google Translate API — free, no key)
 // ============================================================
+async function googleTranslate(text, sourceLang, targetLang) {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&dt=rm&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Translation request failed");
+  const data = await res.json();
+  // data[0] = array of translation segments, data[0][i][0] = translated, data[0][i][1] = source
+  // dt=rm gives romanization in data[0][i][3] sometimes
+  let translated = "";
+  let romaji = "";
+  if (Array.isArray(data) && data[0]) {
+    translated = data[0].filter(s => s && s[0]).map(s => s[0]).join("");
+    // Try to get romanization from the response
+    if (data[0][0] && data[0][0][3]) romaji = data[0][0][3];
+  }
+  return { translated, romaji, raw: data };
+}
+
+// Simple romaji converter for common patterns (supplements Google's romanization)
+function toRomaji(jp) {
+  const map = {"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"wo","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","っ":"(double)","ー":"-","。":".","、":",","？":"?","！":"!"};
+  let result = "";
+  for (let i = 0; i < jp.length; i++) {
+    if (jp[i] === "っ" && i + 1 < jp.length && map[jp[i+1]]) {
+      result += map[jp[i+1]][0]; // double the consonant
+    } else if (map[jp[i]]) {
+      result += map[jp[i]];
+    } else {
+      result += jp[i]; // keep kanji/katakana/unknown as-is
+    }
+  }
+  return result;
+}
+
 function Translator() {
   const [input, setInput] = useState("");
-  const [direction, setDirection] = useState("en-ja"); // en-ja or ja-en
+  const [direction, setDirection] = useState("en-ja");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const inputRef = useRef(null);
 
   const translate = async () => {
     if (!input.trim()) return;
@@ -2861,39 +2893,47 @@ function Translator() {
     setError(null);
     setResult(null);
 
-    const isEnToJa = direction === "en-ja";
-    const prompt = isEnToJa
-      ? `Translate this English to Japanese. Respond ONLY with valid JSON, no markdown, no backticks, no explanation.
-
-Format:
-{"translation":"[Japanese in hiragana/katakana/kanji as appropriate]","romaji":"[full romaji]","literal":"[word-by-word literal meaning]","blocks":[{"label":"[Who/Time/Place/What/How/Verb]","jp":"[Japanese]","r":"[romaji]"}],"notes":"[brief grammar note if useful, otherwise empty string]"}
-
-Translate: "${input.trim()}"`
-      : `Translate this Japanese to English. Respond ONLY with valid JSON, no markdown, no backticks, no explanation.
-
-Format:
-{"translation":"[natural English translation]","romaji":"[romaji of the Japanese input]","literal":"[word-by-word literal meaning]","blocks":[{"label":"[Who/Time/Place/What/How/Verb]","jp":"[Japanese]","r":"[romaji]"}],"notes":"[brief grammar note if useful, otherwise empty string]"}
-
-Translate: "${input.trim()}"`;
-
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      const data = await response.json();
-      const text = data.content?.map(c => c.text || "").join("") || "";
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      setResult(parsed);
+      const isEnToJa = direction === "en-ja";
+      const src = isEnToJa ? "en" : "ja";
+      const tgt = isEnToJa ? "ja" : "en";
+
+      const { translated, romaji } = await googleTranslate(input.trim(), src, tgt);
+
+      if (isEnToJa) {
+        // For en→ja, also get the romaji by translating japanese to romaji
+        let finalRomaji = romaji;
+        if (!finalRomaji || finalRomaji === translated) {
+          // Try to get romaji via a second call (ja → en gives romanization)
+          try {
+            const r2 = await googleTranslate(translated, "ja", "en");
+            if (r2.romaji && r2.romaji !== translated) finalRomaji = r2.romaji;
+            else finalRomaji = toRomaji(translated);
+          } catch { finalRomaji = toRomaji(translated); }
+        }
+        // Also get word-by-word literal translation
+        let literal = "";
+        try {
+          const words = translated.replace(/[。、！？]/g, "").split(/\s+/).filter(Boolean);
+          if (words.length <= 8) {
+            const literalParts = [];
+            for (const w of words) {
+              const { translated: eng } = await googleTranslate(w, "ja", "en");
+              literalParts.push(eng.toLowerCase());
+            }
+            literal = literalParts.join(" — ");
+          }
+        } catch {}
+
+        setResult({ translation: translated, romaji: finalRomaji, literal, isJapanese: true });
+      } else {
+        // ja→en
+        let romajiFinal = romaji || toRomaji(input.trim());
+        setResult({ translation: translated, romaji: romajiFinal, literal: "", isJapanese: false, originalJp: input.trim() });
+      }
     } catch (err) {
-      setError("Translation failed. Please try again.");
       console.error(err);
+      setError("Translation failed. Please check your connection and try again.");
     }
     setLoading(false);
   };
@@ -2902,12 +2942,12 @@ Translate: "${input.trim()}"`;
     <div>
       {/* Direction toggle */}
       <div style={{ display: "flex", gap: 2, background: "var(--card)", borderRadius: 12, padding: 3, marginBottom: 16, border: "1px solid var(--border)" }}>
-        <button onClick={() => setDirection("en-ja")} style={{
+        <button onClick={() => { setDirection("en-ja"); setResult(null); }} style={{
           flex: 1, padding: "10px", borderRadius: 10, border: "none", fontSize: 14, fontWeight: 700,
           cursor: "pointer", background: direction === "en-ja" ? "var(--accent)" : "transparent",
           color: direction === "en-ja" ? "#fff" : "var(--text-dim)",
         }}>English → Japanese</button>
-        <button onClick={() => setDirection("ja-en")} style={{
+        <button onClick={() => { setDirection("ja-en"); setResult(null); }} style={{
           flex: 1, padding: "10px", borderRadius: 10, border: "none", fontSize: 14, fontWeight: 700,
           cursor: "pointer", background: direction === "ja-en" ? "var(--accent)" : "transparent",
           color: direction === "ja-en" ? "#fff" : "var(--text-dim)",
@@ -2917,11 +2957,10 @@ Translate: "${input.trim()}"`;
       {/* Input */}
       <div style={{ marginBottom: 16 }}>
         <textarea
-          ref={inputRef}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); translate(); } }}
-          placeholder={direction === "en-ja" ? "Type English..." : "Type Japanese (romaji or kana)..."}
+          placeholder={direction === "en-ja" ? "Type English..." : "Type Japanese (kana, kanji, or romaji)..."}
           style={{
             width: "100%", padding: "16px", fontSize: 18, borderRadius: 14,
             border: "2px solid var(--border)", background: "var(--card)", color: "var(--text)",
@@ -2955,14 +2994,14 @@ Translate: "${input.trim()}"`;
               Translation
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "var(--text)", flex: 1 }}>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "var(--text)", flex: 1, lineHeight: 1.4 }}>
                 {result.translation}
               </div>
-              {direction === "en-ja" && (
+              {result.isJapanese && (
                 <button onClick={() => speakJapanese(result.translation)} style={{
                   background: "var(--accent)" + "20", border: "1px solid var(--accent)", borderRadius: 10,
                   padding: "8px 14px", cursor: "pointer", fontSize: 14, color: "var(--accent)", fontWeight: 600,
-                  display: "flex", alignItems: "center", gap: 6,
+                  display: "flex", alignItems: "center", gap: 6, flexShrink: 0,
                 }}>🔊 Listen</button>
               )}
             </div>
@@ -2978,33 +3017,49 @@ Translate: "${input.trim()}"`;
             )}
           </div>
 
-          {/* Block breakdown */}
-          {result.blocks && result.blocks.length > 0 && (
+          {/* Reverse translation (for context) */}
+          {result.isJapanese && (
             <div style={{
-              background: "var(--card)", borderRadius: 16, padding: 24, marginBottom: 16,
+              background: "var(--card)", borderRadius: 16, padding: 20, marginBottom: 16,
               border: "1px solid var(--border)",
             }}>
-              <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>
-                Block Breakdown
+              <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
+                Pronunciation Guide
               </div>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
-                {result.blocks.map((b, i) => (
-                  <Block key={i} label={b.label} jp={b.jp} romaji={b.r} animate={true} index={i} />
-                ))}
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: 14, color: "var(--text-dim)" }}>Japanese</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>{result.translation}</span>
+                </div>
+                {result.romaji && <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: 14, color: "var(--text-dim)" }}>Romaji</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--accent)" }}>{result.romaji}</span>
+                </div>}
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: 14, color: "var(--text-dim)" }}>English</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>{input.trim()}</span>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Grammar note */}
-          {result.notes && result.notes.length > 0 && (
+          {/* For ja→en, show the Japanese breakdown */}
+          {!result.isJapanese && result.originalJp && (
             <div style={{
-              background: "#1a1a2e", borderRadius: 14, padding: 16, marginBottom: 16,
-              border: "1px solid #2a2a4a",
+              background: "var(--card)", borderRadius: 16, padding: 20, marginBottom: 16,
+              border: "1px solid var(--border)",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 16 }}>💡</span>
-                <span style={{ fontSize: 14, color: "#a78bfa", lineHeight: 1.5 }}>{result.notes}</span>
+              <div style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
+                Japanese Input
               </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ fontSize: 20, fontWeight: 600, color: "var(--text)", flex: 1 }}>{result.originalJp}</div>
+                <button onClick={() => speakJapanese(result.originalJp)} style={{
+                  background: "var(--accent)" + "20", border: "1px solid var(--accent)", borderRadius: 10,
+                  padding: "6px 12px", cursor: "pointer", fontSize: 13, color: "var(--accent)", fontWeight: 600,
+                }}>🔊</button>
+              </div>
+              {result.romaji && <div style={{ fontSize: 14, color: "var(--accent)", marginTop: 4 }}>{result.romaji}</div>}
             </div>
           )}
         </div>
