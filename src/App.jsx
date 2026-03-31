@@ -2859,17 +2859,88 @@ async function translateAPI(text, sourceLang, targetLang) {
 
 // Simple romaji converter for hiragana
 function toRomaji(jp) {
-  const map = {"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"wo","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","っ":"(double)","ー":"-","。":".","、":",","？":"?","！":"!","ア":"a","イ":"i","ウ":"u","エ":"e","オ":"o","カ":"ka","キ":"ki","ク":"ku","ケ":"ke","コ":"ko","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","タ":"ta","チ":"chi","ツ":"tsu","テ":"te","ト":"to","ナ":"na","ニ":"ni","ヌ":"nu","ネ":"ne","ノ":"no","ハ":"ha","ヒ":"hi","フ":"fu","ヘ":"he","ホ":"ho","マ":"ma","ミ":"mi","ム":"mu","メ":"me","モ":"mo","ヤ":"ya","ユ":"yu","ヨ":"yo","ラ":"ra","リ":"ri","ル":"ru","レ":"re","ロ":"ro","ワ":"wa","ヲ":"wo","ン":"n"};
+  // First, replace common kanji words/particles with romaji (longest match first)
+  const kanjiMap = [
+    // Common multi-kanji words
+    ["食べます","tabemasu"],["食べる","taberu"],["食べて","tabete"],["食べた","tabeta"],["食べたい","tabetai"],
+    ["飲みます","nomimasu"],["飲む","nomu"],["飲んで","nonde"],["飲んだ","nonda"],
+    ["行きます","ikimasu"],["行く","iku"],["行って","itte"],["行った","itta"],
+    ["来ます","kimasu"],["来る","kuru"],["来て","kite"],["来た","kita"],
+    ["見ます","mimasu"],["見る","miru"],["見て","mite"],["見た","mita"],
+    ["します","shimasu"],["する","suru"],["して","shite"],["した","shita"],
+    ["買います","kaimasu"],["買う","kau"],["買って","katte"],["買った","katta"],
+    ["読みます","yomimasu"],["読む","yomu"],["読んで","yonde"],["読んだ","yonda"],
+    ["書きます","kakimasu"],["書く","kaku"],["書いて","kaite"],["書いた","kaita"],
+    ["話します","hanashimasu"],["話す","hanasu"],
+    ["起きます","okimasu"],["起きる","okiru"],["寝ます","nemasu"],["寝る","neru"],
+    ["働きます","hatarakimasu"],["働く","hataraku"],
+    ["歩きます","arukimasu"],["歩く","aruku"],
+    ["分かります","wakarimasu"],["分かる","wakaru"],
+    ["会います","aimasu"],["会う","au"],
+    ["使います","tsukaimasu"],["使う","tsukau"],
+    ["曲がります","magarimasu"],["曲がる","magaru"],
+    ["欲しい","hoshii"],["楽しい","tanoshii"],["嬉しい","ureshii"],["難しい","muzukashii"],
+    ["美味しい","oishii"],["大きい","ookii"],["小さい","chiisai"],["新しい","atarashii"],
+    ["高い","takai"],["安い","yasui"],["早い","hayai"],["遅い","osoi"],
+    ["良い","yoi"],["悪い","warui"],["暑い","atsui"],["寒い","samui"],
+    // Common kanji nouns
+    ["日本語","nihongo"],["日本人","nihonjin"],["日本","nihon"],
+    ["東京","toukyou"],["大阪","oosaka"],["京都","kyouto"],
+    ["学校","gakkou"],["会社","kaisha"],["電車","densha"],["病院","byouin"],
+    ["銀行","ginkou"],["空港","kuukou"],["公園","kouen"],["図書館","toshokan"],
+    ["名前","namae"],["友達","tomodachi"],["先生","sensei"],["学生","gakusei"],
+    ["家族","kazoku"],["子供","kodomo"],["大人","otona"],
+    ["時間","jikan"],["今日","kyou"],["明日","ashita"],["昨日","kinou"],
+    ["毎日","mainichi"],["毎朝","maiasa"],["毎晩","maiban"],
+    ["先週","senshuu"],["今週","konshuu"],["来週","raishuu"],
+    ["先月","sengetsu"],["今月","kongetsu"],["来月","raigetsu"],
+    ["月曜日","getsuyoubi"],["火曜日","kayoubi"],["水曜日","suiyoubi"],
+    ["木曜日","mokuyoubi"],["金曜日","kinyoubi"],["土曜日","doyoubi"],["日曜日","nichiyoubi"],
+    ["御飯","gohan"],["水","mizu"],["肉","niku"],["魚","sakana"],["卵","tamago"],
+    ["本","hon"],["店","mise"],["山","yama"],["川","kawa"],["人","hito"],
+    ["大","ookii"],["小","chiisai"],["日","hi"],["月","tsuki"],["火","hi"],["木","ki"],
+    // Particles & grammar
+    ["ます","masu"],["ました","mashita"],["ません","masen"],
+    ["です","desu"],["でした","deshita"],["ではない","dewanai"],
+    ["ください","kudasai"],["ている","teiru"],["ている","teiru"],
+  ];
+
+  let text = jp;
+  // Replace kanji compounds with romaji markers
+  const markers = [];
+  for (const [kanji, rom] of kanjiMap) {
+    let idx = text.indexOf(kanji);
+    while (idx !== -1) {
+      const marker = `§${markers.length}§`;
+      markers.push(rom);
+      text = text.substring(0, idx) + marker + text.substring(idx + kanji.length);
+      idx = text.indexOf(kanji);
+    }
+  }
+
+  // Now convert remaining kana character by character
+  const kanaMap = {"あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko","さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to","な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho","ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo","ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"o","ん":"n","が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo","だ":"da","ぢ":"di","づ":"du","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo","ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","ー":"-","。":".","、":",","？":"?","！":"!","ア":"a","イ":"i","ウ":"u","エ":"e","オ":"o","カ":"ka","キ":"ki","ク":"ku","ケ":"ke","コ":"ko","サ":"sa","シ":"shi","ス":"su","セ":"se","ソ":"so","タ":"ta","チ":"chi","ツ":"tsu","テ":"te","ト":"to","ナ":"na","ニ":"ni","ヌ":"nu","ネ":"ne","ノ":"no","ハ":"ha","ヒ":"hi","フ":"fu","ヘ":"he","ホ":"ho","マ":"ma","ミ":"mi","ム":"mu","メ":"me","モ":"mo","ヤ":"ya","ユ":"yu","ヨ":"yo","ラ":"ra","リ":"ri","ル":"ru","レ":"re","ロ":"ro","ワ":"wa","ヲ":"wo","ン":"n","ガ":"ga","ギ":"gi","グ":"gu","ゲ":"ge","ゴ":"go","ザ":"za","ジ":"ji","ズ":"zu","ゼ":"ze","ゾ":"zo","ダ":"da","ヂ":"di","ヅ":"du","デ":"de","ド":"do","バ":"ba","ビ":"bi","ブ":"bu","ベ":"be","ボ":"bo","パ":"pa","ピ":"pi","プ":"pu","ペ":"pe","ポ":"po"};
+  
   let result = "";
-  for (let i = 0; i < jp.length; i++) {
-    if ((jp[i] === "っ" || jp[i] === "ッ") && i + 1 < jp.length && map[jp[i+1]]) {
-      result += map[jp[i+1]][0];
-    } else if (map[jp[i]]) {
-      result += map[jp[i]];
-    } else if (jp[i] === " " || jp[i] === "　") {
+  for (let i = 0; i < text.length; i++) {
+    // Check for marker
+    if (text[i] === "§") {
+      const end = text.indexOf("§", i + 1);
+      if (end !== -1) {
+        const idx = parseInt(text.substring(i + 1, end));
+        result += markers[idx];
+        i = end;
+        continue;
+      }
+    }
+    if ((text[i] === "っ" || text[i] === "ッ") && i + 1 < text.length && kanaMap[text[i+1]]) {
+      result += kanaMap[text[i+1]][0];
+    } else if (kanaMap[text[i]]) {
+      result += kanaMap[text[i]];
+    } else if (text[i] === " " || text[i] === "　") {
       result += " ";
     } else {
-      result += jp[i];
+      result += text[i];
     }
   }
   return result;
