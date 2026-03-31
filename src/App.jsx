@@ -402,6 +402,35 @@ const LESSONS = [
           { label: "What", jp: "ビールを", r: "biiru o" },
           { label: "Verb", jp: "のみません", r: "nomimasen" },
         ]
+      },
+      {
+        type: "example",
+        en: "I write in Japanese every day.",
+        blocks: [
+          { label: "Who", jp: "わたしは", r: "watashi wa" },
+          { label: "Time", jp: "まいにち", r: "mainichi" },
+          { label: "What", jp: "にほんごを", r: "nihongo o" },
+          { label: "Verb", jp: "かきます", r: "kakimasu" },
+        ]
+      },
+      {
+        type: "conversation",
+        title: "What Do You Do in the Evening?",
+        lines: [
+          { speaker: "Friend", jp: "よる なにを しますか？", r: "yoru nani o shimasu ka?", en: "What do you do in the evening?" },
+          { speaker: "You", jp: "テレビを みます。", r: "terebi o mimasu.", en: "I watch TV." },
+          { speaker: "Friend", jp: "ほんも よみますか？", r: "hon mo yomimasu ka?", en: "Do you also read books?" },
+          { speaker: "You", jp: "はい、まいにち よみます。", r: "hai, mainichi yomimasu.", en: "Yes, I read every day." },
+        ]
+      },
+      {
+        type: "insight",
+        title: "🇮🇹 'mo' = Italian 'anche'",
+        text: "'mo' (も) means 'also/too' and REPLACES wa. Never say 'wa mo'.\n\nwatashi wa = I (topic)\nwatashi mo = I, too / me also\n\nkoohii mo nomimasu = I also drink coffee\n\nIt works exactly like Italian 'anche' — 'anch\'io bevo caffè' = watashi mo koohii o nomimasu."
+      },
+      {
+        type: "grammar-note",
+        noteKey: "masu"
       }
     ]
   },
@@ -439,6 +468,29 @@ const LESSONS = [
           { label: "How", jp: "ロンドンから", r: "rondon kara" },
           { label: "Verb", jp: "きました", r: "kimashita" },
         ]
+      },
+      {
+        type: "example",
+        en: "I am a student.",
+        blocks: [
+          { label: "Who", jp: "わたしは", r: "watashi wa" },
+          { label: "Verb", jp: "がくせいです", r: "gakusei desu" },
+        ]
+      },
+      {
+        type: "insight",
+        title: "Desu — The 'Is/Am/Are' Ending",
+        text: "'desu' (です) is how you say 'am/is/are' in Japanese. It goes at the end.\n\nwatashi wa gakusei desu = I am a student\nkore wa hon desu = This is a book\nkore wa oishii desu = This is delicious\n\nPast: desu → deshita (was)\nNegative: desu → ja nai desu (is not)\n\nUnlike verbs, desu doesn\'t change based on who\'s speaking."
+      },
+      {
+        type: "conversation",
+        title: "Meeting at a Party",
+        lines: [
+          { speaker: "Person", jp: "おしごとは なんですか？", r: "oshigoto wa nan desu ka?", en: "What do you do for work?" },
+          { speaker: "You", jp: "エンジニアです。", r: "enjinia desu.", en: "I'm an engineer." },
+          { speaker: "Person", jp: "にほんごが じょうずですね！", r: "nihongo ga jouzu desu ne!", en: "Your Japanese is good!" },
+          { speaker: "You", jp: "いいえ、まだまだです。", r: "iie, mada mada desu.", en: "No no, I still have a long way to go." },
+        ]
       }
     ]
   },
@@ -470,6 +522,29 @@ const LESSONS = [
           { label: "Place", jp: "ホテルで", r: "hoteru de" },
           { label: "What", jp: "コーヒーを", r: "koohii o" },
           { label: "Verb", jp: "のみます", r: "nomimasu" },
+        ]
+      },
+      {
+        type: "insight",
+        title: "More Katakana You Already Know",
+        text: "アニメ (anime) — yes, it\'s a Japanese word borrowed BACK from English!\nカラオケ (karaoke)\nスマートフォン (sumaatofon = smartphone)\nアイスクリーム (aisu kuriimu = ice cream)\nチョコレート (chokoreeto = chocolate)\nアルバイト (arubaito = part-time job, from German \'Arbeit\'!)\nエネルギー (enerugii = energy, also from German!)\n\nJapanese doesn\'t just borrow from English — German, Portuguese, and Dutch words are in there too."
+      },
+      {
+        type: "example",
+        en: "I go to the convenience store by taxi.",
+        blocks: [
+          { label: "How", jp: "タクシーで", r: "takushii de" },
+          { label: "Place", jp: "コンビニに", r: "konbini ni" },
+          { label: "Verb", jp: "いきます", r: "ikimasu" },
+        ]
+      },
+      {
+        type: "conversation",
+        title: "At a Convenience Store",
+        lines: [
+          { speaker: "You", jp: "すみません、アイスクリームは どこですか？", r: "sumimasen, aisu kuriimu wa doko desu ka?", en: "Excuse me, where is the ice cream?" },
+          { speaker: "Staff", jp: "あちらです。", r: "achira desu.", en: "It\'s over there." },
+          { speaker: "You", jp: "ありがとうございます。", r: "arigatou gozaimasu.", en: "Thank you." },
         ]
       }
     ]
@@ -601,6 +676,35 @@ const LESSONS = [
         type: "insight",
         title: "Negative Adjectives",
         text: "i-adjectives: drop -i, add -kunai\noishii → oishikunai (not delicious)\ntakai → takakunai (not expensive)\n\nna-adjectives: add ja nai\nshizuka na → shizuka ja nai (not quiet)"
+      },
+      {
+        type: "insight",
+        title: "Past Tense Adjectives",
+        text: "i-adjectives: drop -i, add -katta\noishii → oishikatta (was delicious)\ntakai → takakatta (was expensive)\n\nna-adjectives: add datta\nshizuka → shizuka datta (was quiet)\n\nPast negative:\noishii → oishikunakatta (wasn't delicious)\nshizuka → shizuka ja nakatta (wasn't quiet)"
+      },
+      {
+        type: "example",
+        en: "Yesterday's ramen was cheap and delicious.",
+        blocks: [
+          { label: "Time", jp: "きのうの", r: "kinou no" },
+          { label: "Who", jp: "ラーメンは", r: "raamen wa" },
+          { label: "How", jp: "やすくて", r: "yasukute" },
+          { label: "Verb", jp: "おいしかったです", r: "oishikatta desu" },
+        ]
+      },
+      {
+        type: "conversation",
+        title: "How Was the Restaurant?",
+        lines: [
+          { speaker: "Friend", jp: "レストランは どうでしたか？", r: "resutoran wa dou deshita ka?", en: "How was the restaurant?" },
+          { speaker: "You", jp: "おいしかったです！でも ちょっと たかかったです。", r: "oishikatta desu! demo chotto takakatta desu.", en: "It was delicious! But a little expensive." },
+          { speaker: "Friend", jp: "しずかでしたか？", r: "shizuka deshita ka?", en: "Was it quiet?" },
+          { speaker: "You", jp: "いいえ、にぎやかでした。でも たのしかったです。", r: "iie, nigiyaka deshita. demo tanoshikatta desu.", en: "No, it was lively. But it was fun." },
+        ]
+      },
+      {
+        type: "grammar-note",
+        noteKey: "adjectives"
       }
     ]
   },
@@ -637,6 +741,29 @@ const LESSONS = [
           { label: "How", jp: "やすいですから", r: "yasui desu kara" },
           { label: "Verb", jp: "かいたいです", r: "kaitai desu" },
         ]
+      },
+      {
+        type: "conversation",
+        title: "Making Weekend Plans",
+        lines: [
+          { speaker: "Friend", jp: "しゅうまつ、なにを したいですか？", r: "shuumatsu, nani o shitai desu ka?", en: "What do you want to do this weekend?" },
+          { speaker: "You", jp: "えいがを みたいです。", r: "eiga o mitai desu.", en: "I want to watch a movie." },
+          { speaker: "Friend", jp: "いいですね！どこで みたいですか？", r: "ii desu ne! doko de mitai desu ka?", en: "Nice! Where do you want to watch?" },
+          { speaker: "You", jp: "うちで みたいです。レストランは たかいですから。", r: "uchi de mitai desu. resutoran wa takai desu kara.", en: "At home. Because restaurants are expensive." },
+        ]
+      },
+      {
+        type: "example",
+        en: "I don't want to go because I'm tired.",
+        blocks: [
+          { label: "How", jp: "つかれていますから", r: "tsukarete imasu kara" },
+          { label: "Verb", jp: "いきたくないです", r: "ikitakunai desu" },
+        ]
+      },
+      {
+        type: "insight",
+        title: "Negative -tai: I Don't Want To",
+        text: "Since -tai works like an i-adjective, you negate it the same way:\n\ntabetai → tabetakunai (don't want to eat)\nikitai → ikitakunai (don't want to go)\nnomitai → nomitakunai (don't want to drink)\n\nPast: tabetakatta (wanted to eat)\nPast negative: tabetakunakatta (didn't want to eat)"
       }
     ]
   },
@@ -674,6 +801,34 @@ const LESSONS = [
           { label: "What", jp: "ビールを", r: "biiru o" },
           { label: "Verb", jp: "のみました", r: "nomimashita" },
         ]
+      },
+      {
+        type: "conversation",
+        title: "At a Train Station",
+        lines: [
+          { speaker: "You", jp: "すみません、きっぷを かって ください。", r: "sumimasen, kippu o katte kudasai.", en: "Excuse me, please buy me a ticket. (to a friend)" },
+          { speaker: "Friend", jp: "どこまで？", r: "doko made?", en: "To where?" },
+          { speaker: "You", jp: "とうきょうまで おねがいします。", r: "toukyou made onegaishimasu.", en: "To Tokyo, please." },
+          { speaker: "Friend", jp: "わかりました。ちょっと まって ください。", r: "wakarimashita. chotto matte kudasai.", en: "Got it. Please wait a moment." },
+        ]
+      },
+      {
+        type: "example",
+        en: "Please don\'t take photos here.",
+        blocks: [
+          { label: "Place", jp: "ここで", r: "koko de" },
+          { label: "What", jp: "しゃしんを", r: "shashin o" },
+          { label: "Verb", jp: "とらないでください", r: "toranaide kudasai" },
+        ]
+      },
+      {
+        type: "insight",
+        title: "Negative Requests: -naide kudasai",
+        text: "To say \'please don\'t\', use the negative te-form + kudasai:\n\ntabete kudasai = please eat\ntabenaide kudasai = please don\'t eat\n\nnonde kudasai = please drink\nnomanaide kudasai = please don\'t drink\n\nThis is very useful for polite situations — much softer than just saying \'no\'."
+      },
+      {
+        type: "grammar-note",
+        noteKey: "te"
       }
     ]
   },
@@ -727,7 +882,15 @@ const LESSONS = [
         { label: "How", jp: "でんしゃで", r: "densha de" },
         { label: "Place", jp: "とうきょうに", r: "toukyou ni" },
         { label: "Verb", jp: "いきました", r: "ikimashita" },
-      ]}
+      ]},
+      { type: "conversation", title: "A Busy Day", lines: [
+        { speaker: "Friend", jp: "きょうは いそがしかったですか？", r: "kyou wa isogashikatta desu ka?", en: "Were you busy today?" },
+        { speaker: "You", jp: "はい、あさ おきて、シャワーを あびて、すぐ かいしゃに いきました。", r: "hai, asa okite, shawaa o abite, sugu kaisha ni ikimashita.", en: "Yes, I woke up, showered, and went straight to the office." },
+        { speaker: "Friend", jp: "たいへんですね。", r: "taihen desu ne.", en: "That sounds tough." },
+        { speaker: "You", jp: "でも よる ともだちと レストランで たべました。たのしかったです！", r: "demo yoru tomodachi to resutoran de tabemashita. tanoshikatta desu!", en: "But in the evening I ate at a restaurant with friends. It was fun!" },
+      ]},
+      { type: "insight", title: "🇧🇩 Bengali Connector Bridge",
+        text: "Chaining actions with te-form is very similar to Bengali -e/-te connectors:\n\nBengali: uthe, ghumate giye, ghumalam\n(waking up, going to bed, I slept)\n\nJapanese: okite, nete, nemashita\n(waking up, sleeping, I slept)\n\nBoth languages chain actions the same way — only the last verb carries the tense!" }
     ]
   },
   {
@@ -775,6 +938,19 @@ const LESSONS = [
         { label: "Place", jp: "えきで", r: "eki de" },
         { label: "How", jp: "ひだりに", r: "hidari ni" },
         { label: "Verb", jp: "まがってください", r: "magatte kudasai" },
+      ]},
+      { type: "insight", title: "Transport: How to Get There",
+        text: "de (で) marks the method of transport — the \'by\' block:\n\ndensha de = by train\nbasu de = by bus\ntakushii de = by taxi\njitensha de = by bicycle\naruite = on foot (walking — no de needed!)\n\n\'How long?\' = dono gurai kakarimasu ka?\n\'About 10 minutes\' = juppun gurai desu." },
+      { type: "example", en: "How do I get to Tokyo Station by bus?", blocks: [
+        { label: "Place", jp: "とうきょうえきまで", r: "toukyou eki made" },
+        { label: "How", jp: "バスで", r: "basu de" },
+        { label: "Verb", jp: "どう いきますか？", r: "dou ikimasu ka?" },
+      ]},
+      { type: "conversation", title: "Lost in the City", lines: [
+        { speaker: "You", jp: "すみません、このちかくに コンビニは ありますか？", r: "sumimasen, kono chikaku ni konbini wa arimasu ka?", en: "Excuse me, is there a convenience store nearby?" },
+        { speaker: "Person", jp: "はい、あそこに ありますよ。", r: "hai, asoko ni arimasu yo.", en: "Yes, there\'s one over there." },
+        { speaker: "You", jp: "あるいて なんぷんぐらいですか？", r: "aruite nanpun gurai desu ka?", en: "About how many minutes walking?" },
+        { speaker: "Person", jp: "にふんぐらいです。", r: "nifun gurai desu.", en: "About 2 minutes." },
       ]}
     ]
   },
@@ -792,7 +968,21 @@ const LESSONS = [
         { label: "Verb", jp: "にほんじんです", r: "nihonjin desu" },
       ]},
       { type: "insight", title: "Days of the Week — Kanji in Action",
-        text: "getsuyoubi (月曜日) = Monday (moon day)\nkayoubi (火曜日) = Tuesday (fire day)\nsuiyoubi (水曜日) = Wednesday (water day)\nmokuyoubi (木曜日) = Thursday (tree day)\nkinyoubi (金曜日) = Friday (gold day)\ndoyoubi (土曜日) = Saturday (earth day)\nnichiyoubi (日曜日) = Sunday (sun day)" }
+        text: "getsuyoubi (月曜日) = Monday (moon day)\nkayoubi (火曜日) = Tuesday (fire day)\nsuiyoubi (水曜日) = Wednesday (water day)\nmokuyoubi (木曜日) = Thursday (tree day)\nkinyoubi (金曜日) = Friday (gold day)\ndoyoubi (土曜日) = Saturday (earth day)\nnichiyoubi (日曜日) = Sunday (sun day)" },
+      { type: "insight", title: "Kanji Compounds: Building Words",
+        text: "Once you know basic kanji, you can read compound words:\n\n大人 (otona) = big + person = adult\n大学 (daigaku) = big + study = university\n小学 (shougaku) = small + study = elementary school\n日本 (nihon) = sun + origin = Japan (land of the rising sun)\n日本人 (nihonjin) = Japan + person = Japanese person\n日本語 (nihongo) = Japan + language = Japanese language\n\nSee the pattern? Kanji is like building blocks — just like your sentence blocks!" },
+      { type: "example", en: "I am studying Japanese at university.", blocks: [
+        { label: "Who", jp: "わたしは", r: "watashi wa" },
+        { label: "Place", jp: "大学で", r: "daigaku de" },
+        { label: "What", jp: "日本語を", r: "nihongo o" },
+        { label: "Verb", jp: "べんきょうしています", r: "benkyou shite imasu" },
+      ]},
+      { type: "conversation", title: "Reading a Sign", lines: [
+        { speaker: "You", jp: "あの かんばん、なんて かいて ありますか？", r: "ano kanban, nante kaite arimasu ka?", en: "What does that sign say?" },
+        { speaker: "Friend", jp: "「入口」です。いりぐち という いみです。", r: "iriguchi desu. iriguchi to iu imi desu.", en: "It says \'entrance\'. It means iriguchi." },
+        { speaker: "You", jp: "じゃ、「出口」は？", r: "ja, deguchi wa?", en: "Then what about \'exit\'?" },
+        { speaker: "Friend", jp: "それは deguchi です。でる (exit) + くち (mouth/opening)。", r: "sore wa deguchi desu. deru + kuchi.", en: "That\'s deguchi. Exit + opening." },
+      ]}
     ]
   },
 ];
