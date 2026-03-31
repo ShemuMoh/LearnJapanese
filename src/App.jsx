@@ -2898,11 +2898,12 @@ function toRomaji(jp) {
     ["木曜日","mokuyoubi"],["金曜日","kinyoubi"],["土曜日","doyoubi"],["日曜日","nichiyoubi"],
     ["御飯","gohan"],["水","mizu"],["肉","niku"],["魚","sakana"],["卵","tamago"],
     ["本","hon"],["店","mise"],["山","yama"],["川","kawa"],["人","hito"],
-    ["大","ookii"],["小","chiisai"],["日","hi"],["月","tsuki"],["火","hi"],["木","ki"],
+    ["私","watashi"],["彼","kare"],["彼女","kanojo"],["何","nani"],["誰","dare"],["今","ima"],
+    ["大","dai"],["小","shou"],["日","nichi"],["月","getsu"],["火","ka"],["木","moku"],
     // Particles & grammar
     ["ます","masu"],["ました","mashita"],["ません","masen"],
     ["です","desu"],["でした","deshita"],["ではない","dewanai"],
-    ["ください","kudasai"],["ている","teiru"],["ている","teiru"],
+    ["ください","kudasai"],["ている","teiru"],
   ];
 
   let text = jp;
@@ -2970,28 +2971,7 @@ function Translator() {
         // Get romaji
         const romaji = toRomaji(translated);
 
-        // Get word-by-word literal
-        let literal = "";
-        try {
-          // Split Japanese by particles/spaces and translate each chunk
-          const chunks = translated.split(/([はをのにでがもと])/).filter(Boolean);
-          if (chunks.length <= 12 && chunks.length > 1) {
-            const parts = [];
-            for (const chunk of chunks) {
-              if (chunk.length <= 1 && "はをのにでがもと".includes(chunk)) {
-                parts.push("(" + chunk + ")");
-              } else {
-                try {
-                  const eng = await translateAPI(chunk, "ja", "en");
-                  parts.push(eng.toLowerCase());
-                } catch { parts.push(chunk); }
-              }
-            }
-            literal = parts.join(" ");
-          }
-        } catch {}
-
-        setResult({ translation: translated, romaji, literal, isJapanese: true });
+        setResult({ translation: translated, romaji, literal: "", isJapanese: true });
       } else {
         const romaji = toRomaji(input.trim());
         setResult({ translation: translated, romaji, literal: "", isJapanese: false, originalJp: input.trim() });
